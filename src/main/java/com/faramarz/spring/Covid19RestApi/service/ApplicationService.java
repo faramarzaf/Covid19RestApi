@@ -8,28 +8,25 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
-@Transactional
-public class ApplicationService extends ServiceAbstractionLayer {
 
+public class ApplicationService extends ServiceAbstractionLayer {
 
     private List<ApplicationEntity> allStats = new ArrayList<>();
 
-
     @Override
     @PostConstruct
-    @Scheduled(cron = "* * 1 * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void fetchConfirmedData() throws IOException, InterruptedException {
         List<ApplicationEntity> newStats = new ArrayList<>();
         HttpClient client = HttpClient.newHttpClient();
@@ -45,7 +42,7 @@ public class ApplicationService extends ServiceAbstractionLayer {
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
             locationStats.setLon(record.get("Long"));
-            //locationStats.setId(new SecureRandom().nextLong());
+
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
 

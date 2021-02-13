@@ -1,14 +1,13 @@
 package com.faramarz.spring.Covid19RestApi.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
+
 
 public class ApplicationEntity implements Serializable {
 
 
-
-    private Long id;
-
+    private UUID id;
     private String provinceState;
     private String countryRegion;
     private String lat;
@@ -19,7 +18,7 @@ public class ApplicationEntity implements Serializable {
     public ApplicationEntity() {
     }
 
-    public ApplicationEntity(Long id, String provinceState, String countryRegion, String lat, String lon, int latestTotalCases, int diffFromPrevDay) {
+    public ApplicationEntity(UUID id, String provinceState, String countryRegion, String lat, String lon, int latestTotalCases, int diffFromPrevDay) {
         this.id = id;
         this.provinceState = provinceState;
         this.countryRegion = countryRegion;
@@ -45,11 +44,11 @@ public class ApplicationEntity implements Serializable {
         this.diffFromPrevDay = diffFromPrevDay;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
