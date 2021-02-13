@@ -2,10 +2,8 @@ package com.faramarz.spring.Covid19RestApi.service;
 
 import com.faramarz.spring.Covid19RestApi.Constants;
 import com.faramarz.spring.Covid19RestApi.model.ApplicationEntity;
-import com.faramarz.spring.Covid19RestApi.repository.ApplicationRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +15,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,27 +23,8 @@ import java.util.List;
 @Transactional
 public class ApplicationService extends ServiceAbstractionLayer {
 
-    private final ApplicationRepository applicationRepository;
 
     private List<ApplicationEntity> allStats = new ArrayList<>();
-
-    @Autowired
-    public ApplicationService(ApplicationRepository applicationRepository) {
-        this.applicationRepository = applicationRepository;
-    }
-
-
-    public List<ApplicationEntity> addEntities(Iterable<ApplicationEntity> entities) {
-        for (ApplicationEntity entity : entities) {
-            allStats.add(applicationRepository.save(entity));
-        }
-        return allStats;
-    }
-
-    public List<ApplicationEntity> getEntities() {
-        return applicationRepository.findAll();
-    }
-
 
 
     @Override
@@ -65,7 +45,7 @@ public class ApplicationService extends ServiceAbstractionLayer {
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
             locationStats.setLon(record.get("Long"));
-
+            //locationStats.setId(new SecureRandom().nextLong());
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
 
@@ -73,6 +53,7 @@ public class ApplicationService extends ServiceAbstractionLayer {
             locationStats.setDiffFromPrevDay(latestCases - prevDayCases);
             newStats.add(locationStats);
         }
+
         this.allStats = newStats;
     }
 
