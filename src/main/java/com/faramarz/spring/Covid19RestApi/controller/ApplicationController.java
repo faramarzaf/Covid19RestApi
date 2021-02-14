@@ -35,6 +35,12 @@ public class ApplicationController {
         return new ResponseEntity<>(allStats, HttpStatus.OK);
     }
 
+    @GetMapping("/alldb/{id}")
+    public ResponseEntity<ApplicationEntity> getEmployeeById(@PathVariable("id") Long id) {
+        ApplicationEntity entity = applicationService.findEmployeeById(id);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/all")
     public ResponseEntity<?> deleteAllEmployees() {
         applicationService.deleteAll();

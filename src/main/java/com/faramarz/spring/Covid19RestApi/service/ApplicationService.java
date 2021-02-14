@@ -2,19 +2,16 @@ package com.faramarz.spring.Covid19RestApi.service;
 
 import com.faramarz.spring.Covid19RestApi.ApplicationRepository;
 import com.faramarz.spring.Covid19RestApi.Constants;
+import com.faramarz.spring.Covid19RestApi.exception.ApiRequestException;
 import com.faramarz.spring.Covid19RestApi.model.ApplicationEntity;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.io.StringReader;
@@ -59,10 +56,16 @@ public class ApplicationService extends ServiceAbstractionLayer {
         applicationRepository.deleteAll();
     }
 
+    public ApplicationEntity findEmployeeById(Long id) {
+        return applicationRepository.findEmployeeById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
+    }
+
+    //    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @Scheduled(cron = "*/10 * * * * *")
+    // @PostConstruct
+
+    @Bean
     @Override
-    @PostConstruct
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @Scheduled(cron = "*/10 * * * * *")
     public void fetchConfirmedData() throws IOException, InterruptedException {
         List<ApplicationEntity> newStats = new ArrayList<>();
         HttpClient client = HttpClient.newHttpClient();
