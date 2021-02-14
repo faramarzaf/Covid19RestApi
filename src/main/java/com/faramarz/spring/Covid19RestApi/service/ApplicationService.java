@@ -22,8 +22,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,16 +39,16 @@ public class ApplicationService extends ServiceAbstractionLayer {
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
-    public List<ApplicationEntity> addEmployees(Iterable<ApplicationEntity> entities) {
-        List<ApplicationEntity> result = new ArrayList<>();
+    public void addEmployees(Iterable<ApplicationEntity> entities) {
         if (entities == null) {
-            return result;
+            return;
         }
         for (ApplicationEntity entity : entities) {
-            result.add(applicationRepository.save(entity)); //TODO
+            if (!applicationRepository.existsById(entity.getId()))
+                applicationRepository.save(entity);
+            else
+                return;
         }
-
-        return result;
     }
 
     public List<ApplicationEntity> getEntities() {
@@ -80,11 +78,10 @@ public class ApplicationService extends ServiceAbstractionLayer {
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
             locationStats.setLon(record.get("Long"));
-            try {
-                locationStats.setId(SecureRandom.getInstanceStrong().nextLong());
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
+
+            for (long j = 0; j <= newStats.size(); j++)
+                locationStats.setId(j);
+
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
 

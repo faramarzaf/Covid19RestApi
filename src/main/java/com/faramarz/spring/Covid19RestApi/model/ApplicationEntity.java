@@ -18,6 +18,8 @@ public class ApplicationEntity implements Serializable {
     private int latestTotalCases;
     private int diffFromPrevDay;
 
+
+
     public ApplicationEntity() {
     }
 
