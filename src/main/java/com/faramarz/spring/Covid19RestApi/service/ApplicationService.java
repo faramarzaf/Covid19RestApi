@@ -16,17 +16,17 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 
 public class ApplicationService extends ServiceAbstractionLayer {
 
     private List<ApplicationEntity> allStats = new ArrayList<>();
+    private ApplicationEntity locationStats;
 
     @Override
     @PostConstruct
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     public void fetchConfirmedData() throws IOException, InterruptedException {
         List<ApplicationEntity> newStats = new ArrayList<>();
         HttpClient client = HttpClient.newHttpClient();
@@ -37,7 +37,7 @@ public class ApplicationService extends ServiceAbstractionLayer {
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
 
         for (CSVRecord record : records) {
-            ApplicationEntity locationStats = new ApplicationEntity();
+            locationStats = new ApplicationEntity();
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -50,13 +50,14 @@ public class ApplicationService extends ServiceAbstractionLayer {
             locationStats.setDiffFromPrevDay(latestCases - prevDayCases);
             newStats.add(locationStats);
         }
-
         this.allStats = newStats;
+
     }
 
     public List<ApplicationEntity> getAllStats() {
         return allStats;
     }
+
 
 
 }
