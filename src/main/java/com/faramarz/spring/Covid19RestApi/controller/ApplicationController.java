@@ -5,6 +5,7 @@ import com.faramarz.spring.Covid19RestApi.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,16 @@ public class ApplicationController {
         return new ResponseEntity<>(allStats, HttpStatus.OK);
     }
 
+    @GetMapping("/alldb")
+    public ResponseEntity<List<ApplicationEntity>> getAlldb() {
+        List<ApplicationEntity> allStats = applicationService.getEntities();
+        return new ResponseEntity<>(allStats, HttpStatus.OK);
+    }
 
+    @DeleteMapping("/delete/all")
+    public ResponseEntity<?> deleteAllEmployees() {
+        applicationService.deleteAll();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
