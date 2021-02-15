@@ -1,7 +1,6 @@
 package com.faramarz.spring.Covid19RestApi.service;
 
 import com.faramarz.spring.Covid19RestApi.exception.ApiRequestException;
-import com.faramarz.spring.Covid19RestApi.model.DeadEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
 import com.faramarz.spring.Covid19RestApi.repository.GlobalNewCasesRepository;
@@ -47,6 +46,10 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
 
     public NewCasesEntity findEntityById(Long id) {
         return newCasesRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
+    }
+
+    public NewCasesEntity findNewCasesEntityByLatAndLon(String lat, String lon) {
+        return newCasesRepository.findNewCasesEntityByLatAndLon(lat, lon).orElseThrow(() -> new ApiRequestException("Case by lat " + lat + " lon " + lon + " was not found!"));
     }
 
     public List<NewCasesEntity> findNewCasesEntitiesByCountryRegion(String countryRegion) {

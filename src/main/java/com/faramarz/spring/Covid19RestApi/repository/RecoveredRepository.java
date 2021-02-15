@@ -11,6 +11,9 @@ import java.util.Optional;
 public interface RecoveredRepository extends JpaRepository<RecoveredEntity, Long> {
     Optional<RecoveredEntity> findEntityById(Long id);
 
+    Optional<RecoveredEntity> findRecoveredEntityByLatAndLon(String lat, String lon);
+
+
     Optional<List<RecoveredEntity>> findRecoveredEntitiesByCountryRegion(String countryRegion);
 
 }

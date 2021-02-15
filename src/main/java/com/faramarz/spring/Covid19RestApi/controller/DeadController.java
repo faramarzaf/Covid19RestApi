@@ -44,6 +44,14 @@ public class DeadController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
+    //localhost:8080/api/v1/dead/coordinate/?lat=32.427908&lon=53.688046
+    @GetMapping("/dead/coordinate/")
+    @ResponseBody
+    public ResponseEntity<DeadEntity> getDeadByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "lon") String lon) {
+        DeadEntity entity = serviceDead.findDeadEntityByLatAndLon(lat, lon);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/delete/dead/all")
     public ResponseEntity<?> deleteAllDead() {

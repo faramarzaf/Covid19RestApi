@@ -11,5 +11,7 @@ public interface DeadRepository extends JpaRepository<DeadEntity, Long> {
 
     Optional<DeadEntity> findEntityById(Long id);
 
+    Optional<DeadEntity> findDeadEntityByLatAndLon(String lat,String lon);
+
     Optional<List<DeadEntity>> findDeadEntitiesByCountryRegion(String countryRegion);
 }

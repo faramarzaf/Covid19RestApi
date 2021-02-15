@@ -53,6 +53,10 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
         return deadRepository.findDeadEntitiesByCountryRegion(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
     }
 
+    public DeadEntity findDeadEntityByLatAndLon(String lat, String lon) {
+        return deadRepository.findDeadEntityByLatAndLon(lat, lon).orElseThrow(() -> new ApiRequestException("Case by lat " + lat + " lon " + lon + " was not found!"));
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Scheduled(cron = "0 0 0/1 * * *")
     @PostConstruct

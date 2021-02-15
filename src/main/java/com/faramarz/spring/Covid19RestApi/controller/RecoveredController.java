@@ -39,6 +39,12 @@ public class RecoveredController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
+    @GetMapping("/recovered/coordinate/")
+    @ResponseBody
+    public ResponseEntity<RecoveredEntity> getRecoveredEntityByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "lon") String lon) {
+        RecoveredEntity entity = serviceRecovered.findRecoveredEntityByLatAndLon(lat, lon);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
 
     @DeleteMapping("/delete/recovered/all")
     public ResponseEntity<?> deleteAllRecovered() {

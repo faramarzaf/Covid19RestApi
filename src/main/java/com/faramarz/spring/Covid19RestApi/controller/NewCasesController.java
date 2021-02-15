@@ -40,6 +40,13 @@ public class NewCasesController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
+    @GetMapping("/new_case/coordinate/")
+    @ResponseBody
+    public ResponseEntity<NewCasesEntity> getNewCasesEntityByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "lon") String lon) {
+        NewCasesEntity entity = serviceNewCases.findNewCasesEntityByLatAndLon(lat, lon);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/delete/new_case/all")
     public ResponseEntity<?> deleteAllNewCases() {
