@@ -1,6 +1,6 @@
 package com.faramarz.spring.Covid19RestApi.controller;
 
-import com.faramarz.spring.Covid19RestApi.model.ApplicationEntity;
+import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
 import com.faramarz.spring.Covid19RestApi.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,22 +22,15 @@ public class ApplicationController {
         this.applicationService = applicationService;
     }
 
-
     @GetMapping("/all")
-    public ResponseEntity<List<ApplicationEntity>> getAllEntities() {
-        List<ApplicationEntity> allStats = applicationService.getAllStats();
+    public ResponseEntity<List<NewCasesEntity>> getAll() {
+        List<NewCasesEntity> allStats = applicationService.getEntities();
         return new ResponseEntity<>(allStats, HttpStatus.OK);
     }
 
-    @GetMapping("/alldb")
-    public ResponseEntity<List<ApplicationEntity>> getAlldb() {
-        List<ApplicationEntity> allStats = applicationService.getEntities();
-        return new ResponseEntity<>(allStats, HttpStatus.OK);
-    }
-
-    @GetMapping("/alldb/{id}")
-    public ResponseEntity<ApplicationEntity> getEntityById(@PathVariable("id") Long id) {
-        ApplicationEntity entity = applicationService.findEmployeeById(id);
+    @GetMapping("/all/{id}")
+    public ResponseEntity<NewCasesEntity> getEntityById(@PathVariable("id") Long id) {
+        NewCasesEntity entity = applicationService.findEmployeeById(id);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 

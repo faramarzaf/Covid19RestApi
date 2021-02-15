@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class ApplicationEntity implements Serializable {
+public class NewCasesEntity implements Serializable {
 
     @Id
     private Long id;
@@ -18,10 +18,10 @@ public class ApplicationEntity implements Serializable {
     private int diffFromPrevDay;
 
 
-    public ApplicationEntity() {
+    public NewCasesEntity() {
     }
 
-    public ApplicationEntity(Long id, String provinceState, String countryRegion, String lat, String lon, int latestTotalCases, int diffFromPrevDay) {
+    public NewCasesEntity(Long id, String provinceState, String countryRegion, String lat, String lon, int latestTotalCases, int diffFromPrevDay) {
         this.id = id;
         this.provinceState = provinceState;
         this.countryRegion = countryRegion;
@@ -89,7 +89,7 @@ public class ApplicationEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ApplicationEntity{" +
+        return "NewCasesEntity{" +
                 ", provinceState='" + provinceState + '\'' +
                 ", countryRegion='" + countryRegion + '\'' +
                 ", lat=" + lat +
