@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+
 public interface NewCasesRepository extends JpaRepository<NewCasesEntity, Long> {
 
     Optional<NewCasesEntity> findEntityById(Long id);
