@@ -34,7 +34,7 @@ public abstract class ServiceDeadAbstractionLayer {
         prepareCSVRequestDeadOperation();
     }
 
-    public void getTotalStatistics(List<DeadEntity> newEntity){
+    public void getTotalStatistics(List<DeadEntity> newEntity) {
         GlobalDeadEntity globalDeadEntity = new GlobalDeadEntity();
         int totalDeadToday = newEntity.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
         int totalReportedDead = newEntity.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();

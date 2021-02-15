@@ -1,5 +1,7 @@
 package com.faramarz.spring.Covid19RestApi.controller;
 
+import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
+import com.faramarz.spring.Covid19RestApi.model.GlobalRecoveredEntity;
 import com.faramarz.spring.Covid19RestApi.model.RecoveredEntity;
 import com.faramarz.spring.Covid19RestApi.service.ServiceRecovered;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,18 @@ public class RecoveredController {
     @DeleteMapping("/delete/recovered/all")
     public ResponseEntity<?> deleteAllRecovered() {
         serviceRecovered.deleteAll();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/global/recovered")
+    public ResponseEntity<List<GlobalRecoveredEntity>> getGlobalDead() {
+        List<GlobalRecoveredEntity> allStats = serviceRecovered.getGlobalEntities();
+        return new ResponseEntity<>(allStats, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/recovered/global")
+    public ResponseEntity<?> deleteGlobalDead() {
+        serviceRecovered.deleteAllGlobal();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -36,12 +36,6 @@ public class DeadController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/new_case/all")
-    public ResponseEntity<?> deleteAllNewCases() {
-        serviceDead.deleteAll();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @DeleteMapping("/delete/dead/all")
     public ResponseEntity<?> deleteAllDead() {
         serviceDead.deleteAll();

@@ -1,7 +1,9 @@
 package com.faramarz.spring.Covid19RestApi.service;
 
 import com.faramarz.spring.Covid19RestApi.exception.ApiRequestException;
+import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
+import com.faramarz.spring.Covid19RestApi.repository.GlobalNewCasesRepository;
 import com.faramarz.spring.Covid19RestApi.repository.NewCasesRepository;
 import com.faramarz.spring.Covid19RestApi.service.abstraction.ServiceNewCasesAbstractionLayer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +20,28 @@ import java.util.List;
 public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
 
     private final NewCasesRepository newCasesRepository;
+    private final GlobalNewCasesRepository globalNewCasesRepository;
 
     @Autowired
-    public ServiceNewCases(NewCasesRepository newCasesRepository) {
+    public ServiceNewCases(NewCasesRepository newCasesRepository, GlobalNewCasesRepository globalNewCasesRepository) {
         this.newCasesRepository = newCasesRepository;
+        this.globalNewCasesRepository = globalNewCasesRepository;
     }
 
     public List<NewCasesEntity> getEntities() {
         return newCasesRepository.findAll();
     }
 
+    public List<GlobalNewCaseEntity> getGlobalEntities() {
+        return globalNewCasesRepository.findAll();
+    }
+
     public void deleteAll() {
         newCasesRepository.deleteAll();
+    }
+
+    public void deleteAllGlobal() {
+        globalNewCasesRepository.deleteAll();
     }
 
     public NewCasesEntity findEntityById(Long id) {
@@ -48,6 +60,11 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
     @Override
     public void saveNewCasesInDB(NewCasesEntity locationStats) {
         newCasesRepository.save(locationStats);
+    }
+
+    @Override
+    public void saveGlobalNewCaseInDB(GlobalNewCaseEntity globalNewCaseEntity) {
+        globalNewCasesRepository.save(globalNewCaseEntity);
     }
 
 }

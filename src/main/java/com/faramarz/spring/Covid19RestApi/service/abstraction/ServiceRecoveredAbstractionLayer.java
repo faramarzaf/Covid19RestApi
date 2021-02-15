@@ -2,6 +2,8 @@ package com.faramarz.spring.Covid19RestApi.service.abstraction;
 
 
 import com.faramarz.spring.Covid19RestApi.Constants;
+import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
+import com.faramarz.spring.Covid19RestApi.model.GlobalRecoveredEntity;
 import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
 import com.faramarz.spring.Covid19RestApi.model.RecoveredEntity;
 import org.apache.commons.csv.CSVFormat;
@@ -26,6 +28,7 @@ public abstract class ServiceRecoveredAbstractionLayer {
         StringReader csvBodyReader = new StringReader(httpResponse.body());
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
         fillEntityProperties(records, newStats);
+        getTotalStatistics(newStats);
     }
 
 
@@ -33,6 +36,16 @@ public abstract class ServiceRecoveredAbstractionLayer {
         prepareCSVRequestRecoveredOperation();
     }
 
+    public void getTotalStatistics(List<RecoveredEntity> newEntity) {
+        GlobalRecoveredEntity globalRecoveredEntity = new GlobalRecoveredEntity();
+        int totalNewCaseToday = newEntity.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
+        int totalReportedNewCase = newEntity.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
+        for (long j = 0; j <= newEntity.size(); j++)
+            globalRecoveredEntity.setId(j);
+        globalRecoveredEntity.setTotalRecoveredToday(totalNewCaseToday);
+        globalRecoveredEntity.setTotalReportedRecovered(totalReportedNewCase);
+        saveGlobalNewCaseInDB(globalRecoveredEntity);
+    }
 
     private void fillEntityProperties(Iterable<CSVRecord> newRecord, List<RecoveredEntity> newEntity) {
         for (CSVRecord record : newRecord) {
@@ -53,5 +66,6 @@ public abstract class ServiceRecoveredAbstractionLayer {
     }
 
     public abstract void saveRecoveredInDB(RecoveredEntity locationStats);
-    
+    public abstract void saveGlobalNewCaseInDB(GlobalRecoveredEntity locationStats);
+
 }

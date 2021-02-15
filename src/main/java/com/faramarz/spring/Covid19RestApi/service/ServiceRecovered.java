@@ -1,7 +1,9 @@
 package com.faramarz.spring.Covid19RestApi.service;
 
 import com.faramarz.spring.Covid19RestApi.exception.ApiRequestException;
+import com.faramarz.spring.Covid19RestApi.model.GlobalRecoveredEntity;
 import com.faramarz.spring.Covid19RestApi.model.RecoveredEntity;
+import com.faramarz.spring.Covid19RestApi.repository.GlobalRecoveredRepository;
 import com.faramarz.spring.Covid19RestApi.repository.RecoveredRepository;
 import com.faramarz.spring.Covid19RestApi.service.abstraction.ServiceRecoveredAbstractionLayer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +20,28 @@ import java.util.List;
 public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
 
     private final RecoveredRepository recoveredRepository;
+    private final GlobalRecoveredRepository globalRecoveredRepository;
 
     @Autowired
-    public ServiceRecovered(RecoveredRepository recoveredRepository) {
+    public ServiceRecovered(RecoveredRepository recoveredRepository, GlobalRecoveredRepository globalRecoveredRepository) {
         this.recoveredRepository = recoveredRepository;
+        this.globalRecoveredRepository = globalRecoveredRepository;
     }
 
     public List<RecoveredEntity> getEntities() {
         return recoveredRepository.findAll();
     }
 
+    public List<GlobalRecoveredEntity> getGlobalEntities() {
+        return globalRecoveredRepository.findAll();
+    }
+
     public void deleteAll() {
         recoveredRepository.deleteAll();
+    }
+
+    public void deleteAllGlobal() {
+        globalRecoveredRepository.deleteAll();
     }
 
     public RecoveredEntity findEntityById(Long id) {
@@ -48,6 +60,11 @@ public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
     @Override
     public void saveRecoveredInDB(RecoveredEntity locationStats) {
         recoveredRepository.save(locationStats);
+    }
+
+    @Override
+    public void saveGlobalNewCaseInDB(GlobalRecoveredEntity locationStats) {
+        globalRecoveredRepository.save(locationStats);
     }
 
 }
