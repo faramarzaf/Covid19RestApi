@@ -1,14 +1,13 @@
 package com.faramarz.spring.Covid19RestApi.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
 public class ApplicationEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
     private Long id;
 
     private String provinceState;
@@ -17,7 +16,6 @@ public class ApplicationEntity implements Serializable {
     private String lon;
     private int latestTotalCases;
     private int diffFromPrevDay;
-
 
 
     public ApplicationEntity() {

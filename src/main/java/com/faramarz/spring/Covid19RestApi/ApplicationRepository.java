@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface ApplicationRepository extends JpaRepository<ApplicationEntity, Long> {
 
-    Optional<ApplicationEntity> findEmployeeById(Long id);
+    Optional<ApplicationEntity> findEntityById(Long id);
 }

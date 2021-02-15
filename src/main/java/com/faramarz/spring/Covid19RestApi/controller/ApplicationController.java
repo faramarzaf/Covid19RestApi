@@ -36,13 +36,13 @@ public class ApplicationController {
     }
 
     @GetMapping("/alldb/{id}")
-    public ResponseEntity<ApplicationEntity> getEmployeeById(@PathVariable("id") Long id) {
+    public ResponseEntity<ApplicationEntity> getEntityById(@PathVariable("id") Long id) {
         ApplicationEntity entity = applicationService.findEmployeeById(id);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/all")
-    public ResponseEntity<?> deleteAllEmployees() {
+    public ResponseEntity<?> deleteAllEntities() {
         applicationService.deleteAll();
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -9,9 +9,13 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.io.StringReader;
@@ -36,17 +40,10 @@ public class ApplicationService extends ServiceAbstractionLayer {
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
-    public void addEmployees(Iterable<ApplicationEntity> entities) {
-        if (entities == null) {
-            return;
-        }
-        for (ApplicationEntity entity : entities) {
-            if (!applicationRepository.existsById(entity.getId()))
-                applicationRepository.save(entity);
-            else
-                return;
-        }
+    public void addEntity(ApplicationEntity entities) {
+        applicationRepository.save(entities);
     }
+
 
     public List<ApplicationEntity> getEntities() {
         return applicationRepository.findAll();
@@ -57,14 +54,12 @@ public class ApplicationService extends ServiceAbstractionLayer {
     }
 
     public ApplicationEntity findEmployeeById(Long id) {
-        return applicationRepository.findEmployeeById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
+        return applicationRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
     }
 
-    //    @Transactional(propagation = Propagation.REQUIRES_NEW)
-//    @Scheduled(cron = "*/10 * * * * *")
-    // @PostConstruct
-
-    @Bean
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Scheduled(cron = "*/10 * * * * *")
+    @PostConstruct
     @Override
     public void fetchConfirmedData() throws IOException, InterruptedException {
         List<ApplicationEntity> newStats = new ArrayList<>();
@@ -77,23 +72,21 @@ public class ApplicationService extends ServiceAbstractionLayer {
 
         for (CSVRecord record : records) {
             ApplicationEntity locationStats = new ApplicationEntity();
+            for (long j = 0; j <= newStats.size(); j++)
+                locationStats.setId(j);
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
             locationStats.setLon(record.get("Long"));
-
-            for (long j = 0; j <= newStats.size(); j++)
-                locationStats.setId(j);
-
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
 
             locationStats.setLatestTotalCases(latestCases);
             locationStats.setDiffFromPrevDay(latestCases - prevDayCases);
             newStats.add(locationStats);
+            addEntity(locationStats);
         }
 
-        addEmployees(newStats);
         this.allStats = newStats;
 
     }
