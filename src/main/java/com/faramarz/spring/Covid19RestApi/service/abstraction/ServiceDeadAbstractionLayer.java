@@ -3,7 +3,7 @@ package com.faramarz.spring.Covid19RestApi.service.abstraction;
 
 import com.faramarz.spring.Covid19RestApi.Constants;
 import com.faramarz.spring.Covid19RestApi.model.DeadEntity;
-import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
+import com.faramarz.spring.Covid19RestApi.model.GlobalDeadEntity;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
@@ -26,6 +26,7 @@ public abstract class ServiceDeadAbstractionLayer {
         StringReader csvBodyReader = new StringReader(httpResponse.body());
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
         fillEntityProperties(records, newStats);
+        getTotalStatistics(newStats);
     }
 
 
@@ -33,6 +34,16 @@ public abstract class ServiceDeadAbstractionLayer {
         prepareCSVRequestDeadOperation();
     }
 
+    public void getTotalStatistics(List<DeadEntity> newEntity){
+        GlobalDeadEntity globalDeadEntity = new GlobalDeadEntity();
+        int totalDeadToday = newEntity.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
+        int totalReportedDead = newEntity.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
+        for (long j = 0; j <= newEntity.size(); j++)
+            globalDeadEntity.setId(j);
+        globalDeadEntity.setTotalDeadToday(totalDeadToday);
+        globalDeadEntity.setTotalReportedDead(totalReportedDead);
+        saveGlobalDeadInDB(globalDeadEntity);
+    }
 
     private void fillEntityProperties(Iterable<CSVRecord> newRecord, List<DeadEntity> newEntity) {
         for (CSVRecord record : newRecord) {
@@ -53,5 +64,7 @@ public abstract class ServiceDeadAbstractionLayer {
     }
 
     public abstract void saveDeadInDB(DeadEntity locationStats);
+
+    public abstract void saveGlobalDeadInDB(GlobalDeadEntity globalDeadEntity);
 
 }

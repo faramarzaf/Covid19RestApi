@@ -2,7 +2,9 @@ package com.faramarz.spring.Covid19RestApi.service;
 
 import com.faramarz.spring.Covid19RestApi.exception.ApiRequestException;
 import com.faramarz.spring.Covid19RestApi.model.DeadEntity;
+import com.faramarz.spring.Covid19RestApi.model.GlobalDeadEntity;
 import com.faramarz.spring.Covid19RestApi.repository.DeadRepository;
+import com.faramarz.spring.Covid19RestApi.repository.GlobalDeadRepository;
 import com.faramarz.spring.Covid19RestApi.service.abstraction.ServiceDeadAbstractionLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,10 +20,12 @@ import java.util.List;
 public class ServiceDead extends ServiceDeadAbstractionLayer {
 
     private final DeadRepository deadRepository;
+    private final GlobalDeadRepository globalDeadRepository;
 
     @Autowired
-    public ServiceDead(DeadRepository deadRepository) {
+    public ServiceDead(DeadRepository deadRepository, GlobalDeadRepository globalDeadRepository) {
         this.deadRepository = deadRepository;
+        this.globalDeadRepository = globalDeadRepository;
     }
 
     public List<DeadEntity> getEntities() {
@@ -31,6 +35,15 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
     public void deleteAll() {
         deadRepository.deleteAll();
     }
+
+    public List<GlobalDeadEntity> getGlobalEntities() {
+        return globalDeadRepository.findAll();
+    }
+
+    public void deleteAllGlobal() {
+        globalDeadRepository.deleteAll();
+    }
+
 
     public DeadEntity findEntityById(Long id) {
         return deadRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
@@ -50,5 +63,9 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
         deadRepository.save(locationStats);
     }
 
+    @Override
+    public void saveGlobalDeadInDB(GlobalDeadEntity globalDeadEntity) {
+        globalDeadRepository.save(globalDeadEntity);
+    }
 
 }

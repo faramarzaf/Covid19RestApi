@@ -3,12 +3,12 @@ package com.faramarz.spring.Covid19RestApi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@JsonPropertyOrder({ "id", "lat", "lon" ,"provinceState","countryRegion","latestTotalCases","diffFromPrevDay"})
+@JsonPropertyOrder({"id", "lat", "lon", "provinceState", "countryRegion", "latestTotalCases", "diffFromPrevDay"})
 public class DeadEntity implements Serializable {
 
     @Id
@@ -21,11 +21,10 @@ public class DeadEntity implements Serializable {
     private int latestTotalCases;
     private int diffFromPrevDay;
 
-
     public DeadEntity() {
     }
 
-    public DeadEntity(Long id, String provinceState, String countryRegion, String lat, String lon, int latestTotalCases, int diffFromPrevDay) {
+    public DeadEntity(Long id, String provinceState, String countryRegion, String lat, String lon, int latestTotalCases, int diffFromPrevDay ) {
         this.id = id;
         this.provinceState = provinceState;
         this.countryRegion = countryRegion;
@@ -33,6 +32,7 @@ public class DeadEntity implements Serializable {
         this.lon = lon;
         this.latestTotalCases = latestTotalCases;
         this.diffFromPrevDay = diffFromPrevDay;
+
     }
 
     public Long getId() {

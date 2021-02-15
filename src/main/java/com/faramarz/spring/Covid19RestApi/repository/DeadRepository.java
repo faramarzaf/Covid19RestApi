@@ -9,5 +9,4 @@ import java.util.Optional;
 public interface DeadRepository extends JpaRepository<DeadEntity, Long> {
 
     Optional<DeadEntity> findEntityById(Long id);
-
 }
