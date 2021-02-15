@@ -49,8 +49,7 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    /*@Scheduled(cron = "0 0 0/1 * * *")*/
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "0 0 0/1 * * *")
     @PostConstruct
     @Override
     public void fetchNewCasesData() throws IOException, InterruptedException {

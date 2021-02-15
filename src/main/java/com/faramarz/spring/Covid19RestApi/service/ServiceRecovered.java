@@ -49,8 +49,7 @@ public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    /*@Scheduled(cron = "0 0 0/1 * * *")*/
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "0 0 0/1 * * *")
     @PostConstruct
     @Override
     public void fetchRecoveredData() throws IOException, InterruptedException {

@@ -50,8 +50,7 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    /*@Scheduled(cron = "0 0 0/1 * * *")*/
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "0 0 0/1 * * *")
     @PostConstruct
     @Override
     public void fetchDeadData() throws IOException, InterruptedException {
