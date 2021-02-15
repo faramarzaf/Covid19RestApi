@@ -36,6 +36,15 @@ public class DeadController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
+    //localhost:8080/api/v1/dead/?country=canada
+    @GetMapping("/dead")
+    @ResponseBody
+    public ResponseEntity<List<DeadEntity>> getDeadByCountryRegion(@RequestParam(value = "country") String countryRegion) {
+        List<DeadEntity> entity = serviceDead.findEntityByCountryRegion(countryRegion);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/delete/dead/all")
     public ResponseEntity<?> deleteAllDead() {
         serviceDead.deleteAll();

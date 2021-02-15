@@ -2,16 +2,14 @@ package com.faramarz.spring.Covid19RestApi.controller;
 
 import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalRecoveredEntity;
+import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
 import com.faramarz.spring.Covid19RestApi.model.RecoveredEntity;
 import com.faramarz.spring.Covid19RestApi.service.ServiceRecovered;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +31,14 @@ public class RecoveredController {
         RecoveredEntity entity = serviceRecovered.findEntityById(id);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
+
+    @GetMapping("/recovered")
+    @ResponseBody
+    public ResponseEntity<List<RecoveredEntity>> getRecoveredByCountryRegion(@RequestParam(value = "country") String countryRegion) {
+        List<RecoveredEntity> entity = serviceRecovered.findRecoveredEntitiesByCountryRegion(countryRegion);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/delete/recovered/all")
     public ResponseEntity<?> deleteAllRecovered() {

@@ -48,6 +48,10 @@ public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
         return recoveredRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
     }
 
+    public List<RecoveredEntity> findRecoveredEntitiesByCountryRegion(String countryRegion) {
+        return recoveredRepository.findRecoveredEntitiesByCountryRegion(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Scheduled(cron = "0 0 0/1 * * *")
     @PostConstruct

@@ -1,5 +1,6 @@
 package com.faramarz.spring.Covid19RestApi.controller;
 
+import com.faramarz.spring.Covid19RestApi.model.DeadEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
 import com.faramarz.spring.Covid19RestApi.service.ServiceNewCases;
@@ -29,6 +30,13 @@ public class NewCasesController {
     @GetMapping("/new_case/{id}")
     public ResponseEntity<NewCasesEntity> getNewCasesById(@PathVariable("id") Long id) {
         NewCasesEntity entity = serviceNewCases.findEntityById(id);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
+    @GetMapping("/new_case")
+    @ResponseBody
+    public ResponseEntity<List<NewCasesEntity>> getNewCaseByCountryRegion(@RequestParam(value = "country") String countryRegion) {
+        List<NewCasesEntity> entity = serviceNewCases.findNewCasesEntitiesByCountryRegion(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
