@@ -1,10 +1,14 @@
 package com.faramarz.spring.Covid19RestApi.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
+@JsonPropertyOrder({ "id", "lat", "lon" ,"provinceState","countryRegion","latestTotalCases","diffFromPrevDay"})
 public class NewCasesEntity implements Serializable {
 
     @Id
@@ -79,6 +83,7 @@ public class NewCasesEntity implements Serializable {
         this.lat = lat;
     }
 
+    @JsonProperty("long")
     public String getLon() {
         return lon;
     }
