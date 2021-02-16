@@ -18,7 +18,7 @@ import java.util.List;
 
 public abstract class ServiceDeadAbstractionLayer {
 
-    public void prepareCSVRequestDeadOperation() throws IOException, InterruptedException {
+    private void prepareCSVRequestDeadOperation() throws IOException, InterruptedException {
         List<DeadEntity> newStats = new ArrayList<>();
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(Constants.URL_DEAD)).build();
@@ -34,7 +34,7 @@ public abstract class ServiceDeadAbstractionLayer {
         prepareCSVRequestDeadOperation();
     }
 
-    public void getTotalStatistics(List<DeadEntity> newEntity) {
+    private void getTotalStatistics(List<DeadEntity> newEntity) {
         GlobalDeadEntity globalDeadEntity = new GlobalDeadEntity();
         int totalDeadToday = newEntity.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
         int totalReportedDead = newEntity.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();

@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @EnableScheduling
-@EnableTransactionManagement
 @SpringBootApplication
 public class Covid19RestApiApplication {
 

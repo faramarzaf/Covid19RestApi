@@ -56,7 +56,6 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
         return newCasesRepository.findNewCasesEntitiesByCountryRegion(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Scheduled(cron = "0 0 0/1 * * *")
     @PostConstruct
     @Override
