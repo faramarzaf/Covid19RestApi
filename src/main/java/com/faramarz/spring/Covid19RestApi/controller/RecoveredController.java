@@ -1,8 +1,6 @@
 package com.faramarz.spring.Covid19RestApi.controller;
 
-import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalRecoveredEntity;
-import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
 import com.faramarz.spring.Covid19RestApi.model.RecoveredEntity;
 import com.faramarz.spring.Covid19RestApi.service.ServiceRecovered;
 import org.springframework.beans.factory.annotation.Autowired;

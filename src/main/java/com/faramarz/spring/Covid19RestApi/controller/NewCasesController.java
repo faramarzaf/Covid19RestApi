@@ -1,6 +1,5 @@
 package com.faramarz.spring.Covid19RestApi.controller;
 
-import com.faramarz.spring.Covid19RestApi.model.DeadEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
 import com.faramarz.spring.Covid19RestApi.service.ServiceNewCases;
