@@ -1,4 +1,4 @@
-package com.faramarz.spring.Covid19RestApi;
+package com.faramarz.spring.Covid19RestApi.other;
 
 
 public class Constants {

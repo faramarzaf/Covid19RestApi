@@ -1,18 +1,13 @@
 package com.faramarz.spring.Covid19RestApi.service.abstraction;
 
 
-import com.faramarz.spring.Covid19RestApi.Constants;
 import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
-import org.apache.commons.csv.CSVFormat;
+import com.faramarz.spring.Covid19RestApi.other.CSVHttpRequestHelper;
+import com.faramarz.spring.Covid19RestApi.other.Constants;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +15,8 @@ public abstract class ServiceNewCasesAbstractionLayer {
 
     public void prepareCSVRequestNewCasesOperation() throws IOException, InterruptedException {
         List<NewCasesEntity> newStats = new ArrayList<>();
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(Constants.URL_CONFIRMED)).build();
-        HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-        StringReader csvBodyReader = new StringReader(httpResponse.body());
-        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
-        fillEntityProperties(records, newStats);
+        Iterable<CSVRecord> csvRecords = CSVHttpRequestHelper.request(Constants.URL_CONFIRMED);
+        fillEntityProperties(csvRecords, newStats);
         getTotalStatistics(newStats);
     }
 
@@ -34,11 +25,11 @@ public abstract class ServiceNewCasesAbstractionLayer {
         prepareCSVRequestNewCasesOperation();
     }
 
-    public void getTotalStatistics(List<NewCasesEntity> newEntity) {
+    public void getTotalStatistics(List<NewCasesEntity> newCasesEntities) {
         GlobalNewCaseEntity globalNewCaseEntity = new GlobalNewCaseEntity();
-        int totalNewCaseToday = newEntity.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
-        int totalReportedNewCase = newEntity.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
-        for (long j = 0; j <= newEntity.size(); j++)
+        int totalNewCaseToday = newCasesEntities.stream().mapToInt(NewCasesEntity::getDiffFromPrevDay).sum();
+        int totalReportedNewCase = newCasesEntities.stream().mapToInt(NewCasesEntity::getLatestTotalCases).sum();
+        for (long j = 0; j <= newCasesEntities.size(); j++)
             globalNewCaseEntity.setId(j);
         globalNewCaseEntity.setTotalNewCasesToday(totalNewCaseToday);
         globalNewCaseEntity.setTotalReportedNewCases(totalReportedNewCase);

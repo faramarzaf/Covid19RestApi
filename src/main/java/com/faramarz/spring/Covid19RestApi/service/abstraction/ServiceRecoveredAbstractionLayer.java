@@ -1,20 +1,13 @@
 package com.faramarz.spring.Covid19RestApi.service.abstraction;
 
 
-import com.faramarz.spring.Covid19RestApi.Constants;
-import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalRecoveredEntity;
-import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
 import com.faramarz.spring.Covid19RestApi.model.RecoveredEntity;
-import org.apache.commons.csv.CSVFormat;
+import com.faramarz.spring.Covid19RestApi.other.CSVHttpRequestHelper;
+import com.faramarz.spring.Covid19RestApi.other.Constants;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +15,8 @@ public abstract class ServiceRecoveredAbstractionLayer {
 
     public void prepareCSVRequestRecoveredOperation() throws IOException, InterruptedException {
         List<RecoveredEntity> newStats = new ArrayList<>();
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(Constants.URL_RECOVERED)).build();
-        HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-        StringReader csvBodyReader = new StringReader(httpResponse.body());
-        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
-        fillEntityProperties(records, newStats);
+        Iterable<CSVRecord> csvRecords = CSVHttpRequestHelper.request(Constants.URL_RECOVERED);
+        fillEntityProperties(csvRecords, newStats);
         getTotalStatistics(newStats);
     }
 
@@ -36,11 +25,11 @@ public abstract class ServiceRecoveredAbstractionLayer {
         prepareCSVRequestRecoveredOperation();
     }
 
-    public void getTotalStatistics(List<RecoveredEntity> newEntity) {
+    public void getTotalStatistics(List<RecoveredEntity> recoveredEntities) {
         GlobalRecoveredEntity globalRecoveredEntity = new GlobalRecoveredEntity();
-        int totalNewCaseToday = newEntity.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
-        int totalReportedNewCase = newEntity.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
-        for (long j = 0; j <= newEntity.size(); j++)
+        int totalNewCaseToday = recoveredEntities.stream().mapToInt(RecoveredEntity::getDiffFromPrevDay).sum();
+        int totalReportedNewCase = recoveredEntities.stream().mapToInt(RecoveredEntity::getLatestTotalCases).sum();
+        for (long j = 0; j <= recoveredEntities.size(); j++)
             globalRecoveredEntity.setId(j);
         globalRecoveredEntity.setTotalRecoveredToday(totalNewCaseToday);
         globalRecoveredEntity.setTotalReportedRecovered(totalReportedNewCase);
@@ -66,6 +55,7 @@ public abstract class ServiceRecoveredAbstractionLayer {
     }
 
     public abstract void saveRecoveredInDB(RecoveredEntity locationStats);
+
     public abstract void saveGlobalNewCaseInDB(GlobalRecoveredEntity locationStats);
 
 }
