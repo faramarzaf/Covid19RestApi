@@ -7,13 +7,18 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="Covid19RestApi" />
-          <factory-entry name="entityManagerFactory" value="f8f9c52a-366d-46a3-8218-c02ec5b35517" />
+          <factory-entry name="entityManagerFactory" value="cfa4c916-3a98-4a37-926d-1acee065f54e" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="WebConfig" removed="false">
+          <dependency>spring_boot_com.faramarz.spring.Covid19RestApi.Covid19RestApiApplication</dependency>
+          <file>file://$MODULE_DIR$/src/main/java/com/faramarz/spring/Covid19RestApi/WebConfig.java</file>
+        </fileset>
+      </configuration>
     </facet>
     <facet type="web" name="Web">
       <configuration>

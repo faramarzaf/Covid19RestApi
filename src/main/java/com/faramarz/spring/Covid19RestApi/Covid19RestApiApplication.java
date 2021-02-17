@@ -14,5 +14,5 @@ public class Covid19RestApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(Covid19RestApiApplication.class, args);
     }
-//https://covid19-rest-service.herokuapp.com/api/v1/all/recovered
+
 }

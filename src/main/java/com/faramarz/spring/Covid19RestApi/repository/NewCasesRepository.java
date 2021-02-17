@@ -14,6 +14,6 @@ public interface NewCasesRepository extends JpaRepository<NewCasesEntity, Long> 
 
     Optional<NewCasesEntity> findNewCasesEntityByLatAndLon(String lat, String lon);
 
-    Optional<List<NewCasesEntity>> findNewCasesEntitiesByCountryRegion(String countryRegion);
+    Optional<List<NewCasesEntity>> findEntityByCountryRegionIgnoreCase(String countryRegion);
 
 }

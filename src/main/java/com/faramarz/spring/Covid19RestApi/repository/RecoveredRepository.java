@@ -13,7 +13,6 @@ public interface RecoveredRepository extends JpaRepository<RecoveredEntity, Long
 
     Optional<RecoveredEntity> findRecoveredEntityByLatAndLon(String lat, String lon);
 
-
-    Optional<List<RecoveredEntity>> findRecoveredEntitiesByCountryRegion(String countryRegion);
+    Optional<List<RecoveredEntity>> findEntityByCountryRegionIgnoreCase(String countryRegion);
 
 }

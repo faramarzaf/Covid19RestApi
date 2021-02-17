@@ -13,5 +13,7 @@ public interface DeadRepository extends JpaRepository<DeadEntity, Long> {
 
     Optional<DeadEntity> findDeadEntityByLatAndLon(String lat,String lon);
 
-    Optional<List<DeadEntity>> findDeadEntitiesByCountryRegion(String countryRegion);
+    Optional<List<DeadEntity>> findEntityByCountryRegionIgnoreCase(String countryRegion);
+
+
 }

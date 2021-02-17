@@ -33,13 +33,13 @@ public class RecoveredController {
     @GetMapping("/recovered")
     @ResponseBody
     public ResponseEntity<List<RecoveredEntity>> getRecoveredByCountryRegion(@RequestParam(value = "country") String countryRegion) {
-        List<RecoveredEntity> entity = serviceRecovered.findRecoveredEntitiesByCountryRegion(countryRegion);
+        List<RecoveredEntity> entity = serviceRecovered.findEntityByCountryRegionIgnoreCase(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @GetMapping("/recovered/coordinate/")
     @ResponseBody
-    public ResponseEntity<RecoveredEntity> getRecoveredEntityByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "lon") String lon) {
+    public ResponseEntity<RecoveredEntity> getRecoveredEntityByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "long") String lon) {
         RecoveredEntity entity = serviceRecovered.findRecoveredEntityByLatAndLon(lat, lon);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }

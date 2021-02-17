@@ -36,18 +36,16 @@ public class DeadController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
-    //localhost:8080/api/v1/dead/?country=canada
     @GetMapping("/dead")
     @ResponseBody
     public ResponseEntity<List<DeadEntity>> getDeadByCountryRegion(@RequestParam(value = "country") String countryRegion) {
-        List<DeadEntity> entity = serviceDead.findEntityByCountryRegion(countryRegion);
+        List<DeadEntity> entity = serviceDead.findEntityByCountryRegionIgnoreCase(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
-    //localhost:8080/api/v1/dead/coordinate/?lat=32.427908&lon=53.688046
     @GetMapping("/dead/coordinate/")
     @ResponseBody
-    public ResponseEntity<DeadEntity> getDeadByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "lon") String lon) {
+    public ResponseEntity<DeadEntity> getDeadByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "long") String lon) {
         DeadEntity entity = serviceDead.findDeadEntityByLatAndLon(lat, lon);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }

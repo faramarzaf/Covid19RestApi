@@ -3,6 +3,7 @@ package com.faramarz.spring.Covid19RestApi.service;
 import com.faramarz.spring.Covid19RestApi.exception.ApiRequestException;
 import com.faramarz.spring.Covid19RestApi.model.DeadEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalDeadEntity;
+import com.faramarz.spring.Covid19RestApi.other.RunDataBaseOperationInThread;
 import com.faramarz.spring.Covid19RestApi.repository.DeadRepository;
 import com.faramarz.spring.Covid19RestApi.repository.GlobalDeadRepository;
 import com.faramarz.spring.Covid19RestApi.service.abstraction.ServiceDeadAbstractionLayer;
@@ -47,8 +48,8 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
         return deadRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
     }
 
-    public List<DeadEntity> findEntityByCountryRegion(String countryRegion) {
-        return deadRepository.findDeadEntitiesByCountryRegion(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
+    public List<DeadEntity> findEntityByCountryRegionIgnoreCase(String countryRegion) {
+        return deadRepository.findEntityByCountryRegionIgnoreCase(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
     }
 
     public DeadEntity findDeadEntityByLatAndLon(String lat, String lon) {
@@ -65,12 +66,12 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
 
     @Override
     public void saveDeadInDB(DeadEntity locationStats) {
-        deadRepository.save(locationStats);
+        RunDataBaseOperationInThread.build().execute(() -> deadRepository.save(locationStats));
     }
 
     @Override
     public void saveGlobalDeadInDB(GlobalDeadEntity globalDeadEntity) {
-        globalDeadRepository.save(globalDeadEntity);
+        RunDataBaseOperationInThread.build().execute(() -> globalDeadRepository.save(globalDeadEntity));
     }
 
 }

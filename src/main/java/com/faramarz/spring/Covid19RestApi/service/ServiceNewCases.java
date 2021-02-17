@@ -3,6 +3,7 @@ package com.faramarz.spring.Covid19RestApi.service;
 import com.faramarz.spring.Covid19RestApi.exception.ApiRequestException;
 import com.faramarz.spring.Covid19RestApi.model.GlobalNewCaseEntity;
 import com.faramarz.spring.Covid19RestApi.model.NewCasesEntity;
+import com.faramarz.spring.Covid19RestApi.other.RunDataBaseOperationInThread;
 import com.faramarz.spring.Covid19RestApi.repository.GlobalNewCasesRepository;
 import com.faramarz.spring.Covid19RestApi.repository.NewCasesRepository;
 import com.faramarz.spring.Covid19RestApi.service.abstraction.ServiceNewCasesAbstractionLayer;
@@ -13,12 +14,15 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service("ServiceNewCases")
 public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
 
     private final NewCasesRepository newCasesRepository;
     private final GlobalNewCasesRepository globalNewCasesRepository;
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Autowired
     public ServiceNewCases(NewCasesRepository newCasesRepository, GlobalNewCasesRepository globalNewCasesRepository) {
@@ -50,8 +54,8 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
         return newCasesRepository.findNewCasesEntityByLatAndLon(lat, lon).orElseThrow(() -> new ApiRequestException("Case by lat " + lat + " lon " + lon + " was not found!"));
     }
 
-    public List<NewCasesEntity> findNewCasesEntitiesByCountryRegion(String countryRegion) {
-        return newCasesRepository.findNewCasesEntitiesByCountryRegion(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
+    public List<NewCasesEntity> findEntityByCountryRegionIgnoreCase(String countryRegion) {
+        return newCasesRepository.findEntityByCountryRegionIgnoreCase(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
     }
 
     @Scheduled(cron = "0 0 0/1 * * *")
@@ -63,12 +67,12 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
 
     @Override
     public void saveNewCasesInDB(NewCasesEntity locationStats) {
-        newCasesRepository.save(locationStats);
+        RunDataBaseOperationInThread.build().execute(() -> newCasesRepository.save(locationStats));
     }
 
     @Override
     public void saveGlobalNewCaseInDB(GlobalNewCaseEntity globalNewCaseEntity) {
-        globalNewCasesRepository.save(globalNewCaseEntity);
+        RunDataBaseOperationInThread.build().execute(() -> globalNewCasesRepository.save(globalNewCaseEntity));
     }
 
 }

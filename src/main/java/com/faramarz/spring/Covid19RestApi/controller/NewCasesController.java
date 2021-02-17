@@ -35,13 +35,13 @@ public class NewCasesController {
     @GetMapping("/new_case")
     @ResponseBody
     public ResponseEntity<List<NewCasesEntity>> getNewCaseByCountryRegion(@RequestParam(value = "country") String countryRegion) {
-        List<NewCasesEntity> entity = serviceNewCases.findNewCasesEntitiesByCountryRegion(countryRegion);
+        List<NewCasesEntity> entity = serviceNewCases.findEntityByCountryRegionIgnoreCase(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @GetMapping("/new_case/coordinate/")
     @ResponseBody
-    public ResponseEntity<NewCasesEntity> getNewCasesEntityByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "lon") String lon) {
+    public ResponseEntity<NewCasesEntity> getNewCasesEntityByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "long") String lon) {
         NewCasesEntity entity = serviceNewCases.findNewCasesEntityByLatAndLon(lat, lon);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
