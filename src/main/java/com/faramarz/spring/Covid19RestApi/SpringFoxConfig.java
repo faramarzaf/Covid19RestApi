@@ -3,42 +3,59 @@ package com.faramarz.spring.Covid19RestApi;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
+import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Configuration
 @EnableSwagger2
-//@Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig {
+
     @Bean
-    public Docket apiDocket() {
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.faramarz.spring.Covid19RestApi"))
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())
                 .build()
-                .apiInfo(getApiInfo());
+                .globalOperationParameters(parameters());
     }
 
-    private ApiInfo getApiInfo() {
-        return new ApiInfo(
-                "TITLE",
-                "DESCIPRION",
-                "VERSION",
-                "TERMS OF SERVICE URL",
-                new Contact("NAME","URL","EMAIL"),
-                "LICENSE",
-                "LICENSE URL",
-                Collections.emptyList()
-        );
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("USER API")
+                .contact(new Contact("Your Name", "", "Your Email"))
+                .build();
     }
+
+    private List<Parameter> parameters() {
+        List<Parameter> parameters = new ArrayList<>();
+
+        Parameter headParameter = new ParameterBuilder()
+                .name("User Restful API")
+                .description("")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .required(false)
+                .build();
+
+        parameters.add(headParameter);
+
+        return parameters;
+    }
+
 }
