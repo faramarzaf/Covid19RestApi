@@ -24,7 +24,7 @@ public class SpringFoxConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.faramarz.spring.Covid19RestApi"))
-                .paths(PathSelectors.ant("/v2/**"))
+                .paths(PathSelectors.any())
                 .build()
                 .apiInfo(getApiInfo());
     }
