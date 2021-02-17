@@ -8,7 +8,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableScheduling
 @SpringBootApplication
-@EnableSwagger2
+//@EnableSwagger2
 public class Covid19RestApiApplication {
 
     public static void main(String[] args) {

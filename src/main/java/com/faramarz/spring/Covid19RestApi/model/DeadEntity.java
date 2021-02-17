@@ -3,6 +3,8 @@ package com.faramarz.spring.Covid19RestApi.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,16 +13,23 @@ import java.util.List;
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"id", "lat", "lon", "provinceState", "countryRegion", "latestTotalCases", "diffFromPrevDay"})
+@ApiModel(description = "Class representing a DeadEntity by the application.")
 public class DeadEntity implements Serializable {
 
     @Id
     private Long id;
 
+    @ApiModelProperty(notes = "First name of the person.", example = "John", required = true, position = 1)
     private String provinceState;
+
     private String countryRegion;
+
     private String lat;
+
     private String lon;
+
     private int latestTotalCases;
+
     private int diffFromPrevDay;
 
     public DeadEntity() {

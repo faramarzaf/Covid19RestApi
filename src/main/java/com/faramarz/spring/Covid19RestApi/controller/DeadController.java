@@ -3,6 +3,8 @@ package com.faramarz.spring.Covid19RestApi.controller;
 import com.faramarz.spring.Covid19RestApi.model.DeadEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalDeadEntity;
 import com.faramarz.spring.Covid19RestApi.service.ServiceDead;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +14,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@Api(description = "Set of endpoints for Creating, Retrieving, Updating and Deleting of DeadEntity.")
 public class DeadController {
 
     @Autowired
     private ServiceDead serviceDead;
 
 
+    @ApiOperation("Returns list of all Persons in the system.")
     @GetMapping("/all/dead")
     public ResponseEntity<List<DeadEntity>> getAllDead() {
         List<DeadEntity> allStats = serviceDead.getEntities();
