@@ -10,7 +10,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.HashMap;
 
-/*
 @RestControllerAdvice
 public class ExceptionResolver {
 
@@ -22,4 +21,4 @@ public class ExceptionResolver {
         response.put("message", e.getLocalizedMessage());
         return response;
     }
-}*/
+}

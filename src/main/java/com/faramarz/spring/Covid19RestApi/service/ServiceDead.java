@@ -3,7 +3,6 @@ package com.faramarz.spring.Covid19RestApi.service;
 import com.faramarz.spring.Covid19RestApi.exception.ApiRequestException;
 import com.faramarz.spring.Covid19RestApi.model.DeadEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalDeadEntity;
-import com.faramarz.spring.Covid19RestApi.other.RunDataBaseOperationInThread;
 import com.faramarz.spring.Covid19RestApi.repository.DeadRepository;
 import com.faramarz.spring.Covid19RestApi.repository.GlobalDeadRepository;
 import com.faramarz.spring.Covid19RestApi.service.abstraction.ServiceDeadAbstractionLayer;
@@ -66,13 +65,11 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
 
     @Override
     public void saveDeadInDB(DeadEntity locationStats) {
-       // RunDataBaseOperationInThread.build().execute(() -> deadRepository.save(locationStats));
         deadRepository.save(locationStats);
     }
 
     @Override
     public void saveGlobalDeadInDB(GlobalDeadEntity globalDeadEntity) {
-       // RunDataBaseOperationInThread.build().execute(() -> globalDeadRepository.save(globalDeadEntity));
         globalDeadRepository.save(globalDeadEntity);
     }
 
