@@ -10,7 +10,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.HashMap;
 
-/*
 @RestControllerAdvice
 public class ExceptionResolver {
 
@@ -23,4 +22,3 @@ public class ExceptionResolver {
         return response;
     }
 }
-*/

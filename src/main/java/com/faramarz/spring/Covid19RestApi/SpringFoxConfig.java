@@ -1,4 +1,4 @@
-package com.faramarz.spring.Covid19RestApi.other;
+package com.faramarz.spring.Covid19RestApi;
 
 
 import org.springframework.context.annotation.Bean;
@@ -15,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
+/*
 @Configuration
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
@@ -41,4 +42,4 @@ public class SpringFoxConfig {
                 Collections.emptyList()
         );
     }
-}
+}*/
