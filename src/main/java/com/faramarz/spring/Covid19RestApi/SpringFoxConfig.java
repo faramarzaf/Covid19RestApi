@@ -17,7 +17,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
-@Import(BeanValidatorPluginsConfiguration.class)
+//@Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig {
     @Bean
     public Docket apiDocket() {
