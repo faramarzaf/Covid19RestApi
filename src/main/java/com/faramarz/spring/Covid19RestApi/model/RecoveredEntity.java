@@ -2,6 +2,8 @@ package com.faramarz.spring.Covid19RestApi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,17 +11,30 @@ import java.io.Serializable;
 
 @Entity
 @JsonPropertyOrder({ "id", "lat", "lon" ,"provinceState","countryRegion","latestTotalCases","diffFromPrevDay"})
+@ApiModel(description = "Class representing a RecoveredEntity by the application.")
 public class RecoveredEntity implements Serializable {
 
     @Id
     private Long id;
 
+    @ApiModelProperty(notes = "Name of the province", example = "British Columbia", required = true, position = 1)
     private String provinceState;
+
+    @ApiModelProperty(notes = "Name of the country", example = "Canada", required = true, position = 2)
     private String countryRegion;
+
+    @ApiModelProperty(notes = "Latitude of the region", example = "-65.00184", required = true, position = 3)
     private String lat;
+
+    @ApiModelProperty(notes = "Longitude of the region", example = "45.64684", required = true, position = 4)
     private String lon;
+
+    @ApiModelProperty(notes = "Total recovered until today in this specific province/country", example = "British Columbia", required = true, position = 5)
     private int latestTotalCases;
+
+    @ApiModelProperty(notes = "The number of recovered since yesterday", example = "25", required = true, position = 6)
     private int diffFromPrevDay;
+
 
 
     public RecoveredEntity() {

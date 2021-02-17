@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -19,23 +19,28 @@ public class DeadEntity implements Serializable {
     @Id
     private Long id;
 
-    @ApiModelProperty(notes = "First name of the person.", example = "John", required = true, position = 1)
+    @ApiModelProperty(notes = "Name of the province", example = "British Columbia", required = true, position = 1)
     private String provinceState;
 
+    @ApiModelProperty(notes = "Name of the country", example = "Canada", required = true, position = 2)
     private String countryRegion;
 
+    @ApiModelProperty(notes = "Latitude of the region", example = "-65.00184", required = true, position = 3)
     private String lat;
 
+    @ApiModelProperty(notes = "Longitude of the region", example = "45.64684", required = true, position = 4)
     private String lon;
 
+    @ApiModelProperty(notes = "Total dead until today in this specific province/country", example = "1200", required = true, position = 5)
     private int latestTotalCases;
 
+    @ApiModelProperty(notes = "The number of dead since yesterday ", example = "25", required = true, position = 6)
     private int diffFromPrevDay;
 
     public DeadEntity() {
     }
 
-    public DeadEntity(Long id, String provinceState, String countryRegion, String lat, String lon, int latestTotalCases, int diffFromPrevDay ) {
+    public DeadEntity(Long id, String provinceState, String countryRegion, String lat, String lon, int latestTotalCases, int diffFromPrevDay) {
         this.id = id;
         this.provinceState = provinceState;
         this.countryRegion = countryRegion;
