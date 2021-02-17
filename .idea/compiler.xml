@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11">
-      <module name="Covid19RestApi" target="11" />
+      <module name="Covid19RestApi" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
