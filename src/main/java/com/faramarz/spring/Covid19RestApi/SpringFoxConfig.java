@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/*
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfig {
@@ -58,4 +59,4 @@ public class SpringFoxConfig {
         return parameters;
     }
 
-}
+}*/
