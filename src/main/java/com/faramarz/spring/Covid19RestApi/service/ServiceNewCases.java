@@ -68,11 +68,13 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
     @Override
     public void saveNewCasesInDB(NewCasesEntity locationStats) {
         RunDataBaseOperationInThread.build().execute(() -> newCasesRepository.save(locationStats));
+        newCasesRepository.save(locationStats);
     }
 
     @Override
     public void saveGlobalNewCaseInDB(GlobalNewCaseEntity globalNewCaseEntity) {
         RunDataBaseOperationInThread.build().execute(() -> globalNewCasesRepository.save(globalNewCaseEntity));
+        globalNewCasesRepository.save(globalNewCaseEntity);
     }
 
 }

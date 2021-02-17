@@ -66,12 +66,14 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
 
     @Override
     public void saveDeadInDB(DeadEntity locationStats) {
-        RunDataBaseOperationInThread.build().execute(() -> deadRepository.save(locationStats));
+       // RunDataBaseOperationInThread.build().execute(() -> deadRepository.save(locationStats));
+        deadRepository.save(locationStats);
     }
 
     @Override
     public void saveGlobalDeadInDB(GlobalDeadEntity globalDeadEntity) {
-        RunDataBaseOperationInThread.build().execute(() -> globalDeadRepository.save(globalDeadEntity));
+       // RunDataBaseOperationInThread.build().execute(() -> globalDeadRepository.save(globalDeadEntity));
+        globalDeadRepository.save(globalDeadEntity);
     }
 
 }

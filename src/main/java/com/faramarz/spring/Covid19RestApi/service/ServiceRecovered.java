@@ -67,12 +67,14 @@ public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
 
     @Override
     public void saveRecoveredInDB(RecoveredEntity locationStats) {
-        RunDataBaseOperationInThread.build().execute(() -> recoveredRepository.save(locationStats));
+       // RunDataBaseOperationInThread.build().execute(() -> recoveredRepository.save(locationStats));
+        recoveredRepository.save(locationStats);
     }
 
     @Override
     public void saveGlobalNewCaseInDB(GlobalRecoveredEntity locationStats) {
-        RunDataBaseOperationInThread.build().execute(() -> globalRecoveredRepository.save(locationStats));
+     //   RunDataBaseOperationInThread.build().execute(() -> globalRecoveredRepository.save(locationStats));
+        globalRecoveredRepository.save(locationStats);
     }
 
 }
