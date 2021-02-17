@@ -58,17 +58,4 @@ public class RecoveredController {
         return new ResponseEntity<>(allStats, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/recovered/all")
-    public ResponseEntity<?> deleteAllRecovered() {
-        serviceRecovered.deleteAll();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-    @DeleteMapping("/delete/recovered/global")
-    public ResponseEntity<?> deleteGlobalDead() {
-        serviceRecovered.deleteAllGlobal();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 }

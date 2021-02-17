@@ -57,17 +57,5 @@ public class NewCasesController {
         return new ResponseEntity<>(allStats, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/new_case/all")
-    public ResponseEntity<?> deleteAllNewCases() {
-        serviceNewCases.deleteAll();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete/new_case/global")
-    public ResponseEntity<?> deleteGlobalDead() {
-        serviceNewCases.deleteAllGlobal();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 
 }

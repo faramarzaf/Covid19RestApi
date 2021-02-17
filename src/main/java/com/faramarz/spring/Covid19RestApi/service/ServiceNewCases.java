@@ -35,14 +35,6 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
         return globalNewCasesRepository.findAll();
     }
 
-    public void deleteAll() {
-        newCasesRepository.deleteAll();
-    }
-
-    public void deleteAllGlobal() {
-        globalNewCasesRepository.deleteAll();
-    }
-
     public NewCasesEntity findEntityById(Long id) {
         return newCasesRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
     }

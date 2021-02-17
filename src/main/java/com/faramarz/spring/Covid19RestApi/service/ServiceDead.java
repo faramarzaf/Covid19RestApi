@@ -30,18 +30,9 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
         return deadRepository.findAll();
     }
 
-    public void deleteAll() {
-        deadRepository.deleteAll();
-    }
-
     public List<GlobalDeadEntity> getGlobalEntities() {
         return globalDeadRepository.findAll();
     }
-
-    public void deleteAllGlobal() {
-        globalDeadRepository.deleteAll();
-    }
-
 
     public DeadEntity findEntityById(Long id) {
         return deadRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));

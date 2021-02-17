@@ -34,14 +34,6 @@ public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
         return globalRecoveredRepository.findAll();
     }
 
-    public void deleteAll() {
-        recoveredRepository.deleteAll();
-    }
-
-    public void deleteAllGlobal() {
-        globalRecoveredRepository.deleteAll();
-    }
-
     public RecoveredEntity findEntityById(Long id) {
         return recoveredRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
     }

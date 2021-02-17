@@ -58,16 +58,4 @@ public class DeadController {
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
-
-    @DeleteMapping("/delete/dead/all")
-    public ResponseEntity<?> deleteAllDead() {
-        serviceDead.deleteAll();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete/dead/global")
-    public ResponseEntity<?> deleteGlobalDead() {
-        serviceDead.deleteAllGlobal();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }
