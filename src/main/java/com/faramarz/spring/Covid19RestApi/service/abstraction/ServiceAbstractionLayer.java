@@ -12,17 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ServiceAbstractionLayer {
-
-    List<ApplicationEntity> newStats = new ArrayList<>();
+    ApplicationEntity locationStats = new ApplicationEntity();
 
     private void prepareCSVRequestOperation() throws IOException, InterruptedException {
+        List<ApplicationEntity> newStats = new ArrayList<>();
 
         Iterable<CSVRecord> csvDeadRecords = CSVHttpRequestHelper.request(Constants.URL_DEAD);
         Iterable<CSVRecord> csvConfirmedRecords = CSVHttpRequestHelper.request(Constants.URL_CONFIRMED);
         Iterable<CSVRecord> csvRecoveredRecords = CSVHttpRequestHelper.request(Constants.URL_RECOVERED);
 
 
-        fillProperties(csvDeadRecords, csvRecoveredRecords, csvConfirmedRecords);
+        //  fillProperties(csvDeadRecords, csvRecoveredRecords, csvConfirmedRecords, newStats);
+
+        fillNewCasesProperties(csvConfirmedRecords,newStats);
+        fillDeadProperties(csvDeadRecords,newStats);
+        fillRecoveredProperties(csvRecoveredRecords,newStats);
 
         getTotalDeadStatistics(newStats);
     }
@@ -59,16 +63,15 @@ public abstract class ServiceAbstractionLayer {
         saveGlobalInDB(globalStatisticEntity);
     }
 
-    private void fillProperties(Iterable<CSVRecord> csvDeadRecords, Iterable<CSVRecord> csvRecoveredRecords, Iterable<CSVRecord> csvNewCasesRecords) {
+/*    private void fillProperties(Iterable<CSVRecord> csvDeadRecords, Iterable<CSVRecord> csvRecoveredRecords, Iterable<CSVRecord> csvNewCasesRecords, List<ApplicationEntity> newEntity) {
         ApplicationEntity locationStats = new ApplicationEntity();
-        for (long j = 0; j <= newStats.size(); j++)
-            locationStats.setId(j);
 
         //dead
         for (CSVRecord deadRecord : csvDeadRecords) {
 
 
-
+           *//* for (long j = 0; j <= newEntity.size(); j++)
+                locationStats.setId(j);*//*
 
             locationStats.setProvinceState(deadRecord.get("Province/State"));
             locationStats.setCountryRegion(deadRecord.get("Country/Region"));
@@ -78,13 +81,15 @@ public abstract class ServiceAbstractionLayer {
             int prevDayCases = Integer.parseInt(deadRecord.get(deadRecord.size() - 2));
             locationStats.setLatestTotalDead(latestCases);
             locationStats.setDiffDeadFromPrevDay(latestCases - prevDayCases);
-            newStats.add(locationStats);
+            newEntity.add(locationStats);
             savePropertiesInDB(locationStats);
         }
 
         //recovered
         for (CSVRecord recoveredRecord : csvRecoveredRecords) {
 
+            *//*for (long j = 0; j <= newEntity.size(); j++)
+                locationStats.setId(j);*//*
             locationStats.setProvinceState(recoveredRecord.get("Province/State"));
             locationStats.setCountryRegion(recoveredRecord.get("Country/Region"));
             locationStats.setLat(recoveredRecord.get("Lat"));
@@ -94,14 +99,15 @@ public abstract class ServiceAbstractionLayer {
             int prevDayRecovered = Integer.parseInt(recoveredRecord.get(recoveredRecord.size() - 2));
             locationStats.setLatestTotalRecovered(latestRecoveredCases);
             locationStats.setDiffRecoveredFromPrevDay(latestRecoveredCases - prevDayRecovered);
-            newStats.add(locationStats);
+            newEntity.add(locationStats);
             savePropertiesInDB(locationStats);
         }
 
         //new case
         for (CSVRecord newCaseRecord : csvNewCasesRecords) {
 
-
+           *//* for (long j = 0; j <= newEntity.size(); j++)
+                locationStats.setId(j);*//*
             locationStats.setProvinceState(newCaseRecord.get("Province/State"));
             locationStats.setCountryRegion(newCaseRecord.get("Country/Region"));
             locationStats.setLat(newCaseRecord.get("Lat"));
@@ -111,14 +117,15 @@ public abstract class ServiceAbstractionLayer {
             int prevDayNewCases = Integer.parseInt(newCaseRecord.get(newCaseRecord.size() - 2));
             locationStats.setLatestTotalNewCases(latestNewCases);
             locationStats.setDiffNewCasesFromPrevDay(latestNewCases - prevDayNewCases);
-            newStats.add(locationStats);
+            newEntity.add(locationStats);
             savePropertiesInDB(locationStats);
         }
 
-    }
+    }*/
 
-/*    private void fillRecoveredProperties(Iterable<CSVRecord> newRecord, List<ApplicationEntity> newEntity) {
+    private void fillRecoveredProperties(Iterable<CSVRecord> newRecord, List<ApplicationEntity> newEntity) {
         for (CSVRecord record : newRecord) {
+
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -146,8 +153,23 @@ public abstract class ServiceAbstractionLayer {
             newEntity.add(locationStats);
             savePropertiesInDB(locationStats);
         }
-    }*/
+    }
 
+    private void fillDeadProperties(Iterable<CSVRecord> newRecord, List<ApplicationEntity> newEntity) {
+        for (CSVRecord record : newRecord) {
+
+            locationStats.setProvinceState(record.get("Province/State"));
+            locationStats.setCountryRegion(record.get("Country/Region"));
+            locationStats.setLat(record.get("Lat"));
+            locationStats.setLon(record.get("Long"));
+            int latestCases = Integer.parseInt(record.get(record.size() - 1));
+            int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
+            locationStats.setLatestTotalDead(latestCases);
+            locationStats.setDiffDeadFromPrevDay(latestCases - prevDayCases);
+            newEntity.add(locationStats);
+            savePropertiesInDB(locationStats);
+        }
+    }
 
     public abstract void savePropertiesInDB(ApplicationEntity locationStats);
 

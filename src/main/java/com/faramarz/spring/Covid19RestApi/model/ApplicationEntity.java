@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -16,7 +18,9 @@ import java.io.Serializable;
 @ApiModel(description = "Class representing an Entity by the application.")
 public class ApplicationEntity implements Serializable {
 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ApiModelProperty(notes = "Name of the province", example = "British Columbia", required = true, position = 1)
