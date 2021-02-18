@@ -12,21 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ServiceAbstractionLayer {
-    ApplicationEntity locationStats = new ApplicationEntity();
+    ApplicationEntity locationStats;
 
     private void prepareCSVRequestOperation() throws IOException, InterruptedException {
         List<ApplicationEntity> newStats = new ArrayList<>();
 
-        Iterable<CSVRecord> csvDeadRecords = CSVHttpRequestHelper.request(Constants.URL_DEAD);
-        Iterable<CSVRecord> csvConfirmedRecords = CSVHttpRequestHelper.request(Constants.URL_CONFIRMED);
-        Iterable<CSVRecord> csvRecoveredRecords = CSVHttpRequestHelper.request(Constants.URL_RECOVERED);
-
 
         //  fillProperties(csvDeadRecords, csvRecoveredRecords, csvConfirmedRecords, newStats);
 
-        fillNewCasesProperties(csvConfirmedRecords,newStats);
-        fillDeadProperties(csvDeadRecords,newStats);
-        fillRecoveredProperties(csvRecoveredRecords,newStats);
+
+        fillNewCasesProperties(newStats);
+        fillDeadProperties(newStats);
+        fillRecoveredProperties(newStats);
 
         getTotalDeadStatistics(newStats);
     }
@@ -123,8 +120,12 @@ public abstract class ServiceAbstractionLayer {
 
     }*/
 
-    private void fillRecoveredProperties(Iterable<CSVRecord> newRecord, List<ApplicationEntity> newEntity) {
-        for (CSVRecord record : newRecord) {
+    private void fillRecoveredProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
+        for (CSVRecord record : getCsvRecovered()) {
+            locationStats = new ApplicationEntity();
+
+            /*for (long j = 0; j <= newEntity.size(); j++)
+                locationStats.setId(j);*/
 
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
@@ -139,9 +140,9 @@ public abstract class ServiceAbstractionLayer {
         }
     }
 
-    private void fillNewCasesProperties(Iterable<CSVRecord> newRecord, List<ApplicationEntity> newEntity) {
-        for (CSVRecord record : newRecord) {
-
+    private void fillNewCasesProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
+        for (CSVRecord record : getCsvConfirmed()) {
+            locationStats = new ApplicationEntity();
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -155,13 +156,14 @@ public abstract class ServiceAbstractionLayer {
         }
     }
 
-    private void fillDeadProperties(Iterable<CSVRecord> newRecord, List<ApplicationEntity> newEntity) {
-        for (CSVRecord record : newRecord) {
-
+    private void fillDeadProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
+        for (CSVRecord record : getCsvDead()) {
+            locationStats = new ApplicationEntity();
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
             locationStats.setLon(record.get("Long"));
+
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
             locationStats.setLatestTotalDead(latestCases);
@@ -169,6 +171,31 @@ public abstract class ServiceAbstractionLayer {
             newEntity.add(locationStats);
             savePropertiesInDB(locationStats);
         }
+    }
+
+/*    private void setCommonInfo(){
+        locationStats.setProvinceState(record.get("Province/State"));
+        locationStats.setCountryRegion(record.get("Country/Region"));
+        locationStats.setLat(record.get("Lat"));
+        locationStats.setLon(record.get("Long"));
+    }*/
+
+    private Iterable<CSVRecord> getCsvDead() throws IOException, InterruptedException {
+        return CSVHttpRequestHelper.request(Constants.URL_DEAD);
+    }
+
+    private Iterable<CSVRecord> getCsvConfirmed() throws IOException, InterruptedException {
+        return CSVHttpRequestHelper.request(Constants.URL_CONFIRMED);
+    }
+
+    private Iterable<CSVRecord> getCsvRecovered() throws IOException, InterruptedException {
+        return CSVHttpRequestHelper.request(Constants.URL_RECOVERED);
+    }
+
+
+    private void setPropertyId(List<ApplicationEntity> newEntity, ApplicationEntity locationStats) {
+        for (long j = 0; j <= newEntity.size(); j++)
+            locationStats.setId(j);
     }
 
     public abstract void savePropertiesInDB(ApplicationEntity locationStats);
