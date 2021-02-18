@@ -21,7 +21,7 @@ public class ApplicationService extends ServiceAbstractionLayer {
 
     private final ApplicationRepository applicationRepository;
     private final GlobalRepository globalRepository;
-    ExecutorService executorService = Executors.newFixedThreadPool(20);
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Autowired
     public ApplicationService(ApplicationRepository applicationRepository, GlobalRepository globalRepository) {
