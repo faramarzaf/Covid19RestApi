@@ -2,6 +2,7 @@ package com.faramarz.spring.Covid19RestApi.model;
 
 import java.util.List;
 
+/*
 public class GlobalDeadEntityHolder {
 
     private List<DeadEntity> InfoList;
@@ -27,4 +28,4 @@ public class GlobalDeadEntityHolder {
     public void setGlobalDeadEntity(GlobalDeadEntity globalDeadEntity) {
         GlobalDeadEntity = globalDeadEntity;
     }
-}
+}*/
