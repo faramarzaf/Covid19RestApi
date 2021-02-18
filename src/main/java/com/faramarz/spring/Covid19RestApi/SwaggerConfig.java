@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Configuration
 @EnableSwagger2WebMvc
-public class SwaggerDocumentation {
+public class SwaggerConfig {
 
     public static final Contact CONTACT = new Contact("Faramarz", "https://faramarzaf.github.io/", "faramarzafzali@gmail.com");
     public static final ApiInfo DEFAULT_API = new ApiInfo("Covid19 Restful API documentation", "Swagger Documentation", "1.0", "urn:tos", CONTACT, "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0", new ArrayList<>());

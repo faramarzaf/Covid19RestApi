@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"id", "lat", "lon", "provinceState", "countryRegion", "latestTotalCases", "diffFromPrevDay"})
 @ApiModel(description = "Class representing a DeadEntity by the application.")
 public class DeadEntity implements Serializable {
