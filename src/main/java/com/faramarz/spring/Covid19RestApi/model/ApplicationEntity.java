@@ -20,7 +20,6 @@ public class ApplicationEntity implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ApiModelProperty(notes = "Name of the province", example = "British Columbia", required = true, position = 1)
