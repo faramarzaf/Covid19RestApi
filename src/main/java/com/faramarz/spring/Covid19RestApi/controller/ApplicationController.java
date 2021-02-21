@@ -35,9 +35,9 @@ public class ApplicationController {
     }
 
     @ApiOperation("Returns statistic by country name")
-    @GetMapping(value = "/country")
+    @GetMapping(value = "/global/")
     @ResponseBody
-    public ResponseEntity<List<ApplicationEntity>> getByCountryRegion(@RequestParam(value = "country") String countryRegion) {
+    public ResponseEntity<List<ApplicationEntity>> getByCountryRegion(@RequestParam(value = "countryName") String countryRegion) {
         List<ApplicationEntity> entity = service.getApplicationEntityByCountryRegionIgnoreCase(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }

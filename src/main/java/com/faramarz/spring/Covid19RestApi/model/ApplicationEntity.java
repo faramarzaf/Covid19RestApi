@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -20,6 +17,8 @@ public class ApplicationEntity implements Serializable {
 
 
     @Id
+/*    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="MySequenceGenerator")
+    @SequenceGenerator(allocationSize=1, schema="myschema",  name="MySequenceGenerator", sequenceName = "mysequence")*/
     private Long id;
 
     @ApiModelProperty(notes = "Name of the province", example = "British Columbia", required = true, position = 1)
