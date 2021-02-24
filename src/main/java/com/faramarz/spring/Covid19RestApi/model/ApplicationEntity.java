@@ -16,9 +16,10 @@ import java.io.Serializable;
 public class ApplicationEntity implements Serializable {
 
 
-    @Id
+
 /*    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="MySequenceGenerator")
     @SequenceGenerator(allocationSize=1, schema="myschema",  name="MySequenceGenerator", sequenceName = "mysequence")*/
+    @Id
     private Long id;
 
     @ApiModelProperty(notes = "Name of the province", example = "British Columbia", required = true, position = 1)

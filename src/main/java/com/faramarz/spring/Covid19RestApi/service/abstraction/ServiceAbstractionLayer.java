@@ -5,15 +5,9 @@ import com.faramarz.spring.Covid19RestApi.model.ApplicationEntity;
 import com.faramarz.spring.Covid19RestApi.model.GlobalStatisticEntity;
 import com.faramarz.spring.Covid19RestApi.other.CSVHttpRequestHelper;
 import com.faramarz.spring.Covid19RestApi.other.Constants;
-import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,13 +55,11 @@ public abstract class ServiceAbstractionLayer {
     }
 
 
-
-
     private void fillNewCasesProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
         for (CSVRecord record : getCsvConfirmed()) {
             ApplicationEntity locationStats = new ApplicationEntity();
 
-            setPropertyId(newEntity,locationStats);
+            setPropertyId(newEntity, locationStats);
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -84,7 +76,7 @@ public abstract class ServiceAbstractionLayer {
     private void fillRecoveredProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
         for (CSVRecord record : getCsvRecovered()) {
             ApplicationEntity locationStats = new ApplicationEntity();
-            setPropertyId(newEntity,locationStats);
+            setPropertyId(newEntity, locationStats);
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -103,7 +95,7 @@ public abstract class ServiceAbstractionLayer {
     private void fillDeadProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
         for (CSVRecord record : getCsvDead()) {
             ApplicationEntity locationStats = new ApplicationEntity();
-            setPropertyId(newEntity,locationStats);
+            setPropertyId(newEntity, locationStats);
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -119,7 +111,6 @@ public abstract class ServiceAbstractionLayer {
     }
 
 
-
     private Iterable<CSVRecord> getCsvDead() throws IOException, InterruptedException {
         return CSVHttpRequestHelper.request(Constants.URL_DEAD);
     }
@@ -131,7 +122,6 @@ public abstract class ServiceAbstractionLayer {
     private Iterable<CSVRecord> getCsvRecovered() throws IOException, InterruptedException {
         return CSVHttpRequestHelper.request(Constants.URL_RECOVERED);
     }
-
 
     private void setPropertyId(List<ApplicationEntity> newEntity, ApplicationEntity locationStats) {
         for (long j = 0; j <= newEntity.size(); j++)
