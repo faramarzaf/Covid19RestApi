@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service("ServiceDead")
 public class ServiceDead extends ServiceDeadAbstractionLayer {
 
     private final DeadRepository deadRepository;
     private final GlobalDeadRepository globalDeadRepository;
+    ExecutorService executorService = Executors.newFixedThreadPool(30);
 
     @Autowired
     public ServiceDead(DeadRepository deadRepository, GlobalDeadRepository globalDeadRepository) {
@@ -56,7 +59,8 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
 
     @Override
     public void saveDeadInDB(DeadEntity locationStats) {
-        deadRepository.save(locationStats);
+        //deadRepository.save(locationStats);
+        executorService.execute(() -> deadRepository.save(locationStats));
     }
 
     @Override

@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service("ServiceNewCases")
 public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
 
     private final NewCasesRepository newCasesRepository;
     private final GlobalNewCasesRepository globalNewCasesRepository;
+    ExecutorService executorService = Executors.newFixedThreadPool(30);
 
 
     @Autowired
@@ -56,7 +59,9 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
 
     @Override
     public void saveNewCasesInDB(NewCasesEntity locationStats) {
-        newCasesRepository.save(locationStats);
+       // newCasesRepository.save(locationStats);
+        executorService.execute(() -> newCasesRepository.save(locationStats));
+
     }
 
     @Override

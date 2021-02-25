@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service("ServiceRecovered")
 public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
 
     private final RecoveredRepository recoveredRepository;
     private final GlobalRecoveredRepository globalRecoveredRepository;
+    ExecutorService executorService = Executors.newFixedThreadPool(30);
 
     @Autowired
     public ServiceRecovered(RecoveredRepository recoveredRepository, GlobalRecoveredRepository globalRecoveredRepository) {
@@ -55,7 +58,9 @@ public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
 
     @Override
     public void saveRecoveredInDB(RecoveredEntity locationStats) {
-        recoveredRepository.save(locationStats);
+       // recoveredRepository.save(locationStats);
+        executorService.execute(() -> recoveredRepository.save(locationStats));
+
     }
 
     @Override
