@@ -15,8 +15,6 @@ import javax.persistence.Id;
         "totalReportedRecovered", "totalRecoveredToday"})
 public class GlobalStatisticEntity {
 
-    // TODO maybe for id in JsonPropertyOrder exception
-
     @Id
     private Long id;
 
