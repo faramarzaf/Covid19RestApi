@@ -1,6 +1,7 @@
 package com.faramarz.spring.Covid19RestApi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -101,6 +102,7 @@ public class ApplicationEntity implements Serializable {
         this.lat = lat;
     }
 
+    @JsonProperty(value = "long")
     public String getLon() {
         return lon;
     }
