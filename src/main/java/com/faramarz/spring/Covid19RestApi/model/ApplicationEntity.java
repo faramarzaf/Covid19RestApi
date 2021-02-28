@@ -46,7 +46,6 @@ public class ApplicationEntity implements Serializable {
     @ApiModelProperty(notes = "The number of dead since yesterday ", example = "25", required = true, position = 8)
     private int diffDeadFromPrevDay;
 
-
     @ApiModelProperty(notes = "Total recovered until today in this specific province/country", example = "1200", required = true, position = 9)
     private int latestTotalRecovered;
 

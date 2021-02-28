@@ -13,33 +13,34 @@ import java.util.List;
 
 public abstract class ServiceAbstractionLayer {
 
-
+    private static List<ApplicationEntity> newStats = new ArrayList<>();
     private void prepareCSVRequestOperation() throws IOException, InterruptedException {
-        List<ApplicationEntity> newStats = new ArrayList<>();
-        fillNewCasesProperties(newStats);
-        fillDeadProperties(newStats);
-        fillRecoveredProperties(newStats);
-        getTotalDeadStatistics(newStats);
+
+        fillNewCasesProperties();
+        fillDeadProperties();
+        fillRecoveredProperties();
+        getTotalDeadStatistics();
     }
 
     public void fetchData() throws IOException, InterruptedException {
         prepareCSVRequestOperation();
     }
 
-    private void getTotalDeadStatistics(List<ApplicationEntity> applicationEntities) {
+    private void getTotalDeadStatistics() {
         GlobalStatisticEntity globalStatisticEntity = new GlobalStatisticEntity();
 
-        int totalDeadToday = applicationEntities.stream().mapToInt(ApplicationEntity::getDiffDeadFromPrevDay).sum();
-        int totalReportedDead = applicationEntities.stream().mapToInt(ApplicationEntity::getLatestTotalDead).sum();
+        int totalDeadToday = newStats.stream().mapToInt(ApplicationEntity::getDiffDeadFromPrevDay).sum();
+        int totalReportedDead = newStats.stream().mapToInt(ApplicationEntity::getLatestTotalDead).sum();
 
-        int totalRecoveredToday = applicationEntities.stream().mapToInt(ApplicationEntity::getDiffRecoveredFromPrevDay).sum();
-        int totalReportedRecovered = applicationEntities.stream().mapToInt(ApplicationEntity::getLatestTotalRecovered).sum();
+        int totalRecoveredToday = newStats.stream().mapToInt(ApplicationEntity::getDiffRecoveredFromPrevDay).sum();
+        int totalReportedRecovered = newStats.stream().mapToInt(ApplicationEntity::getLatestTotalRecovered).sum();
 
-        int totalNewCaseToday = applicationEntities.stream().mapToInt(ApplicationEntity::getDiffNewCasesFromPrevDay).sum();
-        int totalReportedNewCase = applicationEntities.stream().mapToInt(ApplicationEntity::getLatestTotalNewCases).sum();
+        int totalNewCaseToday = newStats.stream().mapToInt(ApplicationEntity::getDiffNewCasesFromPrevDay).sum();
+        int totalReportedNewCase = newStats.stream().mapToInt(ApplicationEntity::getLatestTotalNewCases).sum();
 
-        for (long j = 0; j <= applicationEntities.size(); j++)
+        for (long j = 0; j <= newStats.size(); j++)
             globalStatisticEntity.setId(j);
+
         globalStatisticEntity.setTotalDeadToday(totalDeadToday);
         globalStatisticEntity.setTotalReportedDead(totalReportedDead);
 
@@ -55,11 +56,11 @@ public abstract class ServiceAbstractionLayer {
     }
 
 
-    private void fillNewCasesProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
+    private void fillNewCasesProperties() throws IOException, InterruptedException {
         for (CSVRecord record : getCsvConfirmed()) {
             ApplicationEntity locationStats = new ApplicationEntity();
 
-            setPropertyId(newEntity, locationStats);
+            setPropertyId(newStats, locationStats);
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -68,15 +69,15 @@ public abstract class ServiceAbstractionLayer {
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
             locationStats.setLatestTotalNewCases(latestCases);
             locationStats.setDiffNewCasesFromPrevDay(latestCases - prevDayCases);
-            newEntity.add(locationStats);
+            newStats.add(locationStats);
             savePropertiesInDB(locationStats);
         }
     }
 
-    private void fillRecoveredProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
+    private void fillRecoveredProperties() throws IOException, InterruptedException {
         for (CSVRecord record : getCsvRecovered()) {
             ApplicationEntity locationStats = new ApplicationEntity();
-            setPropertyId(newEntity, locationStats);
+            setPropertyId(newStats, locationStats);
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -87,15 +88,15 @@ public abstract class ServiceAbstractionLayer {
             locationStats.setLatestTotalRecovered(latestCases);
             locationStats.setDiffRecoveredFromPrevDay(latestCases - prevDayCases);
 
-            newEntity.add(locationStats);
+            newStats.add(locationStats);
             savePropertiesInDB(locationStats);
         }
     }
 
-    private void fillDeadProperties(List<ApplicationEntity> newEntity) throws IOException, InterruptedException {
+    private void fillDeadProperties() throws IOException, InterruptedException {
         for (CSVRecord record : getCsvDead()) {
             ApplicationEntity locationStats = new ApplicationEntity();
-            setPropertyId(newEntity, locationStats);
+            setPropertyId(newStats, locationStats);
             locationStats.setProvinceState(record.get("Province/State"));
             locationStats.setCountryRegion(record.get("Country/Region"));
             locationStats.setLat(record.get("Lat"));
@@ -105,7 +106,7 @@ public abstract class ServiceAbstractionLayer {
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
             locationStats.setLatestTotalDead(latestCases);
             locationStats.setDiffDeadFromPrevDay(latestCases - prevDayCases);
-            newEntity.add(locationStats);
+            newStats.add(locationStats);
             savePropertiesInDB(locationStats);
         }
     }
