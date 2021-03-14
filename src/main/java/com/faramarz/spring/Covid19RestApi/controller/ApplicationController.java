@@ -37,15 +37,15 @@ public class ApplicationController {
     @ApiOperation("Returns statistic by country name")
     @GetMapping(value = "/global/{countryName}")
     @ResponseBody
-    public ResponseEntity<List<ApplicationEntity>> getByCountryRegion(@PathVariable(value = "countryName") String countryRegion) {
+    public ResponseEntity<List<ApplicationEntity>> getByCountry(@PathVariable(value = "countryName") String countryRegion) {
         List<ApplicationEntity> entity = service.getApplicationEntityByCountryRegionIgnoreCase(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
-    @ApiOperation("Returns  statistic by latitude and longitude")
+    @ApiOperation("Returns statistic by latitude and longitude")
     @GetMapping(value = "/coordinate")
     @ResponseBody
-    public ResponseEntity<ApplicationEntity> getDeadByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "long") String lon) {
+    public ResponseEntity<ApplicationEntity> getByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "long") String lon) {
         ApplicationEntity entity = service.getApplicationEntityByLatAndLon(lat, lon);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }

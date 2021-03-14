@@ -57,7 +57,7 @@ public abstract class ServiceAbstractionLayer {
             ApplicationEntity locationStats = new ApplicationEntity();
 
             setPropertyId(newStats, locationStats);
-            setCommonAttributes(locationStats,record);
+            setCommonAttributes(locationStats, record);
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
             locationStats.setLatestTotalNewCases(latestCases);
@@ -71,7 +71,7 @@ public abstract class ServiceAbstractionLayer {
         for (CSVRecord record : getCsvRecovered()) {
             ApplicationEntity locationStats = new ApplicationEntity();
             setPropertyId(newStats, locationStats);
-            setCommonAttributes(locationStats,record);
+            setCommonAttributes(locationStats, record);
 
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
@@ -88,7 +88,7 @@ public abstract class ServiceAbstractionLayer {
         for (CSVRecord record : getCsvDead()) {
             ApplicationEntity locationStats = new ApplicationEntity();
             setPropertyId(newStats, locationStats);
-            setCommonAttributes(locationStats,record);
+            setCommonAttributes(locationStats, record);
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
             int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
             locationStats.setLatestTotalDead(latestCases);
@@ -115,7 +115,8 @@ public abstract class ServiceAbstractionLayer {
         for (long j = 0; j <= newEntity.size(); j++)
             locationStats.setId(j);
     }
-    private void setCommonAttributes( ApplicationEntity locationStats,CSVRecord record){
+
+    private void setCommonAttributes(ApplicationEntity locationStats, CSVRecord record) {
         locationStats.setProvinceState(record.get("Province/State"));
         locationStats.setCountryRegion(record.get("Country/Region"));
         locationStats.setLat(record.get("Lat"));
