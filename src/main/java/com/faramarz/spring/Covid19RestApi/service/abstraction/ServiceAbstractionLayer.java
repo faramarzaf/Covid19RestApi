@@ -25,6 +25,7 @@ public abstract class ServiceAbstractionLayer {
     private void getTotalDeadStatistics() {
         GlobalStatisticEntity globalStatisticEntity = new GlobalStatisticEntity();
 
+        // int totalDeadToday = newEntity.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
         int totalDeadToday = newStats.stream().mapToInt(ApplicationEntity::getDiffDeadFromPrevDay).sum();
         int totalReportedDead = newStats.stream().mapToInt(ApplicationEntity::getLatestTotalDead).sum();
 
