@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/recovered")
 @Api(description = "Set of endpoints for retrieving and deleting of RecoveredEntity.")
 public class RecoveredController {
