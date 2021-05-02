@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/recovered")
 @Api(description = "Set of endpoints for retrieving and deleting of RecoveredEntity.")
 public class RecoveredController {
 
@@ -22,37 +22,44 @@ public class RecoveredController {
     private ServiceRecovered serviceRecovered;
 
     @ApiOperation("Returns list of recovered statistic")
-    @GetMapping("/all/recovered")
+    @GetMapping("/")
     public ResponseEntity<List<RecoveredEntity>> getAllRecovered() {
         List<RecoveredEntity> allStats = serviceRecovered.getEntities();
         return new ResponseEntity<>(allStats, HttpStatus.OK);
     }
 
     @ApiOperation("Returns list of recovered statistic by country id")
-    @GetMapping("/recovered/{id}")
-    public ResponseEntity<RecoveredEntity> getRecoveredById(@PathVariable("id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<RecoveredEntity> getRecoveredById(
+            @PathVariable("id") Long id) {
+
         RecoveredEntity entity = serviceRecovered.findEntityById(id);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @ApiOperation("Returns list of recovered statistic by country name")
-    @GetMapping("/recovered")
+    @GetMapping("/region")
     @ResponseBody
-    public ResponseEntity<List<RecoveredEntity>> getRecoveredByCountryRegion(@RequestParam(value = "country") String countryRegion) {
+    public ResponseEntity<List<RecoveredEntity>> getRecoveredByCountryRegion(
+            @RequestParam(value = "country") String countryRegion) {
+
         List<RecoveredEntity> entity = serviceRecovered.findEntityByCountryRegionIgnoreCase(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @ApiOperation("Returns list of recovered statistic by latitude and longitude")
-    @GetMapping("/recovered/coordinate/")
+    @GetMapping("/coordinate")
     @ResponseBody
-    public ResponseEntity<RecoveredEntity> getRecoveredEntityByLatAndLon(@RequestParam(value = "lat") String lat, @RequestParam(value = "long") String lon) {
+    public ResponseEntity<RecoveredEntity> getRecoveredEntityByLatAndLon(
+            @RequestParam(value = "lat") String lat,
+            @RequestParam(value = "long") String lon) {
+
         RecoveredEntity entity = serviceRecovered.findRecoveredEntityByLatAndLon(lat, lon);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @ApiOperation("Returns list of global recovered statistic")
-    @GetMapping("/global/recovered")
+    @GetMapping("/global")
     public ResponseEntity<List<GlobalRecoveredEntity>> getGlobalDead() {
         List<GlobalRecoveredEntity> allStats = serviceRecovered.getGlobalEntities();
         return new ResponseEntity<>(allStats, HttpStatus.OK);
