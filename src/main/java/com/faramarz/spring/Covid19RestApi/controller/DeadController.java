@@ -40,7 +40,7 @@ public class DeadController {
     @GetMapping("/region")
     @ResponseBody
     public ResponseEntity<List<DeadEntity>> getDeadByCountryRegion(@RequestParam(value = "country") String countryRegion) {
-        List<DeadEntity> entity = serviceDead.findEntityByCountryRegionIgnoreCase(countryRegion);
+        List<DeadEntity> entity = serviceDead.findEntityByCountry(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 

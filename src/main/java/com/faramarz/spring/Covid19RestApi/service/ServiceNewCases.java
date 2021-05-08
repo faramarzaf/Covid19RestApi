@@ -46,7 +46,7 @@ public class ServiceNewCases extends ServiceNewCasesAbstractionLayer {
         return newCasesRepository.findNewCasesEntityByLatAndLon(lat, lon).orElseThrow(() -> new ApiRequestException("Case by lat " + lat + " lon " + lon + " was not found!"));
     }
 
-    public List<NewCasesEntity> findEntityByCountryRegionIgnoreCase(String countryRegion) {
+    public List<NewCasesEntity> findEntityByCountry(String countryRegion) {
         return newCasesRepository.findEntityByCountryRegionIgnoreCase(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
     }
 

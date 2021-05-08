@@ -38,7 +38,7 @@ public class NewCasesController {
     @GetMapping("/region")
     @ResponseBody
     public ResponseEntity<List<NewCasesEntity>> getNewCaseByCountryRegion(@RequestParam(value = "country") String countryRegion) {
-        List<NewCasesEntity> entity = serviceNewCases.findEntityByCountryRegionIgnoreCase(countryRegion);
+        List<NewCasesEntity> entity = serviceNewCases.findEntityByCountry(countryRegion);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 

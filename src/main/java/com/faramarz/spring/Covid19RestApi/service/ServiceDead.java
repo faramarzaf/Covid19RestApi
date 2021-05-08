@@ -41,7 +41,7 @@ public class ServiceDead extends ServiceDeadAbstractionLayer {
         return deadRepository.findEntityById(id).orElseThrow(() -> new ApiRequestException("Case by id " + id + " was not found!"));
     }
 
-    public List<DeadEntity> findEntityByCountryRegionIgnoreCase(String countryRegion) {
+    public List<DeadEntity> findEntityByCountry(String countryRegion) {
         return deadRepository.findEntityByCountryRegionIgnoreCase(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
     }
 

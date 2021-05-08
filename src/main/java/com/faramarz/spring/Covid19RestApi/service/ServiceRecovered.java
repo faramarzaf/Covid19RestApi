@@ -45,7 +45,7 @@ public class ServiceRecovered extends ServiceRecoveredAbstractionLayer {
         return recoveredRepository.findRecoveredEntityByLatAndLon(lat, lon).orElseThrow(() -> new ApiRequestException("Case by lat " + lat + " lon " + lon + " was not found!"));
     }
 
-    public List<RecoveredEntity> findEntityByCountryRegionIgnoreCase(String countryRegion) {
+    public List<RecoveredEntity> findEntityByCountry(String countryRegion) {
         return recoveredRepository.findEntityByCountryRegionIgnoreCase(countryRegion).orElseThrow(() -> new ApiRequestException("Case by countryRegion " + countryRegion + " was not found!"));
     }
 
