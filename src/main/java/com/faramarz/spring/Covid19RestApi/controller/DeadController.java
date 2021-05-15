@@ -22,7 +22,7 @@ public class DeadController {
 
 
     @ApiOperation("Returns list of dead statistic")
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<DeadEntity>> getAllDead() {
         List<DeadEntity> allStats = serviceDead.getEntities();
         return new ResponseEntity<>(allStats, HttpStatus.OK);

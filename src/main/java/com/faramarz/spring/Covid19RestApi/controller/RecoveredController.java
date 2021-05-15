@@ -21,7 +21,7 @@ public class RecoveredController {
     private ServiceRecovered serviceRecovered;
 
     @ApiOperation("Returns list of recovered statistic")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<RecoveredEntity>> getAllRecovered() {
         List<RecoveredEntity> allStats = serviceRecovered.getEntities();
         return new ResponseEntity<>(allStats, HttpStatus.OK);
