@@ -21,7 +21,7 @@ public class NewCasesController {
     private ServiceNewCases serviceNewCases;
 
     @ApiOperation("Returns list of new cases (reported/confirmed) statistic")
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<NewCasesEntity>> getAllNewCases() {
         List<NewCasesEntity> allStats = serviceNewCases.getEntities();
         return new ResponseEntity<>(allStats, HttpStatus.OK);
